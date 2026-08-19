@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Confirm receipt SR-202607-0029 — Supply Requests</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="shell">
+
+  <aside class="nav" aria-label="Main navigation">
+    <div class="brand">
+      <div class="brand-mark" aria-hidden="true">SR</div>
+      <div class="brand-name">Supply Requests<small>Garissa Field Office</small></div>
+    </div>
+    <div class="nav-group">
+      <div class="nav-label">General</div>
+      <a class="item" href="index.html"><span class="glyph">⌂</span> Home</a>
+      <a class="item" href="new-request.html"><span class="glyph">＋</span> New request</a>
+    </div>
+    <div class="nav-group">
+      <div class="nav-label">Work queue</div>
+      <a class="item" href="review.html"><span class="glyph">☰</span> Review &amp; distribution</a>
+      <a class="item" href="distribute.html"><span class="glyph">⇥</span> Distribute</a>
+      <a class="item" href="receipt.html" aria-current="page"><span class="glyph">✓</span> Confirm receipt</a>
+    </div>
+    <div class="nav-group">
+      <div class="nav-label">Manage</div>
+      <a class="item" href="admin.html"><span class="glyph">⚙</span> Catalogue &amp; matrix</a>
+      <a class="item" href="reports.html"><span class="glyph">◫</span> Reports</a>
+    </div>
+    <div class="nav-user">
+      <div class="avatar" aria-hidden="true">DO</div>
+      <div class="who">Daniel Otieno<small>Administrative Associate · Requester</small></div>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="topbar">
+      <a href="index.html" aria-label="Back to home" style="font-size:16px">←</a>
+      <h1>Confirm receipt <span class="ref" style="font-size:15px">SR-202607-0029</span></h1>
+      <span class="badge b-delivered"><span class="i">▣</span> Fully delivered</span>
+      <span class="persona">Viewing as: Requester</span>
+      <span class="spacer"></span>
+      <button class="btn btn-primary">Confirm receipt</button>
+    </div>
+
+    <div class="content" style="max-width:920px">
+
+      <div class="callout good">
+        <span aria-hidden="true">✓</span>
+        <span>Delivered by <strong>Samuel Kiptoo</strong> on 13 Jul 2026. Check what actually arrived — confirming everything
+        closes this request automatically.</span>
+      </div>
+
+      <section class="card">
+        <div class="card-head"><h2>Delivered items</h2><span class="count">4</span></div>
+        <div class="card-body flush" style="overflow-x:auto">
+          <table class="table">
+            <thead>
+              <tr>
+                <th style="width:36%">Item</th>
+                <th class="num">Delivered</th>
+                <th class="num">Received</th>
+                <th>Condition</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>A4 photocopy paper (ream)</td>
+                <td class="num">10</td>
+                <td class="num"><input class="input qty" type="number" min="0" max="10" value="10" aria-label="Quantity received: A4 paper"></td>
+                <td><span class="stock-ok">✓ Complete</span></td>
+              </tr>
+              <tr>
+                <td>Ballpoint pens, blue (box of 50)</td>
+                <td class="num">2</td>
+                <td class="num"><input class="input qty" type="number" min="0" max="2" value="2" aria-label="Quantity received: pens"></td>
+                <td><span class="stock-ok">✓ Complete</span></td>
+              </tr>
+              <tr>
+                <td>Lever-arch files</td>
+                <td class="num">12</td>
+                <td class="num"><input class="input qty" type="number" min="0" max="12" value="11" aria-label="Quantity received: files"></td>
+                <td><span class="stock-low">⚠ 1 short — partial receipt</span></td>
+              </tr>
+              <tr>
+                <td>Desk tape dispenser</td>
+                <td class="num">1</td>
+                <td class="num"><input class="input qty" type="number" min="0" max="1" value="1" aria-label="Quantity received: tape dispenser"></td>
+                <td><span class="stock-ok">✓ Complete</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="card-body" style="border-top:1px solid var(--line)">
+          <div class="field" style="max-width:620px;margin-bottom:0">
+            <label for="rcpt-note">Note <span class="hint">(required when received differs from delivered)</span></label>
+            <textarea id="rcpt-note" class="input" rows="2">One lever-arch file arrived damaged — returned to the store with Samuel.</textarea>
+          </div>
+        </div>
+      </section>
+
+      <p class="mock-note">
+        Mockup 6 of 8 — Confirm receipt (strategy §8, screen 6; FR-RCPT-001..003). With one short item this becomes
+        <span class="k">PARTIALLY_RECEIVED</span>; when everything is received the <span class="k">AutoClose</span> flow
+        sets <span class="k">CLOSED</span> and stamps the closed date.
+      </p>
+    </div>
+  </main>
+</div>
+</body>
+</html>

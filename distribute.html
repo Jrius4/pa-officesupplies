@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Distribute SR-202607-0035 — Supply Requests</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="shell">
+
+  <aside class="nav" aria-label="Main navigation">
+    <div class="brand">
+      <div class="brand-mark" aria-hidden="true">SR</div>
+      <div class="brand-name">Supply Requests<small>Garissa Field Office</small></div>
+    </div>
+    <div class="nav-group">
+      <div class="nav-label">General</div>
+      <a class="item" href="index.html"><span class="glyph">⌂</span> Home</a>
+      <a class="item" href="new-request.html"><span class="glyph">＋</span> New request</a>
+    </div>
+    <div class="nav-group">
+      <div class="nav-label">Work queue</div>
+      <a class="item" href="review.html"><span class="glyph">☰</span> Review &amp; distribution</a>
+      <a class="item" href="distribute.html" aria-current="page"><span class="glyph">⇥</span> Distribute</a>
+      <a class="item" href="receipt.html"><span class="glyph">✓</span> Confirm receipt</a>
+    </div>
+    <div class="nav-group">
+      <div class="nav-label">Manage</div>
+      <a class="item" href="admin.html"><span class="glyph">⚙</span> Catalogue &amp; matrix</a>
+      <a class="item" href="reports.html"><span class="glyph">◫</span> Reports</a>
+    </div>
+    <div class="nav-user">
+      <div class="avatar alt2" aria-hidden="true">SK</div>
+      <div class="who">Samuel Kiptoo<small>Storekeeper</small></div>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="topbar">
+      <a href="index.html" aria-label="Back to home" style="font-size:16px">←</a>
+      <h1>Distribute <span class="ref" style="font-size:15px">SR-202607-0035</span></h1>
+      <span class="badge b-reviewed"><span class="i">◆</span> Reviewed</span>
+      <span class="persona">Viewing as: Storekeeper</span>
+      <span class="spacer"></span>
+      <button class="btn btn-primary">Record distribution</button>
+    </div>
+
+    <div class="content" style="max-width:980px">
+
+      <section class="card" style="margin-bottom:20px">
+        <div class="card-body" style="display:flex;gap:26px;flex-wrap:wrap;font-size:12.5px;color:var(--ink-2)">
+          <div>Deliver to<br><strong style="color:var(--ink)">Daniel Otieno · Operations, Garissa FO</strong></div>
+          <div>Reviewed by<br><strong style="color:var(--ink)">Susan Njeri (OIC for Daniel Otieno)</strong></div>
+          <div>Confirmed by<br><strong style="color:var(--ink)">Fatuma Noor, Chief Field Office · 14 Jul 2026</strong></div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="card-head">
+          <h2>Items to distribute</h2>
+          <span class="count">2</span>
+          <span class="spacer" style="flex:1"></span>
+          <span style="font-size:11.5px;color:var(--ink-2)">Available quantities shown before entry (FR-STOCK-004)</span>
+        </div>
+        <div class="card-body flush" style="overflow-x:auto">
+          <table class="table">
+            <thead>
+              <tr>
+                <th style="width:32%">Item</th>
+                <th class="num">Approved qty</th>
+                <th class="num">Available now</th>
+                <th class="num">Distributing</th>
+                <th>Stock after</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Toner cartridge, HP 26A</td>
+                <td class="num">3</td>
+                <td class="num">7</td>
+                <td class="num"><input class="input qty" type="number" min="0" max="3" value="3" aria-label="Quantity distributing: toner"></td>
+                <td><span class="stock-ok">4 left · above threshold</span></td>
+              </tr>
+              <tr>
+                <td>Archive boxes (pack of 5)</td>
+                <td class="num">10</td>
+                <td class="num">6</td>
+                <td class="num"><input class="input qty" type="number" min="0" max="6" value="6" aria-label="Quantity distributing: archive boxes"></td>
+                <td><span class="stock-low">⚠ 0 left · flags out of stock</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="card-body" style="border-top:1px solid var(--line)">
+          <div class="callout warn" style="margin:0">
+            <span aria-hidden="true">⚠</span>
+            <span>Distributing 6 of 10 archive boxes makes this a <strong>partial delivery</strong>. The remaining 4 stay on the
+            request and can be distributed later. Stock is decremented and the ledger written when you record — this cannot exceed
+            what is available.</span>
+          </div>
+        </div>
+      </section>
+
+      <p class="mock-note">
+        Mockup 5 of 8 — Distribute (strategy §8, screen 5; FR-DIST-001..005). Recording calls the
+        <span class="k">Serializer</span> flow, which validates availability, decrements <span class="k">Catalogue.StockQty</span>,
+        appends <span class="k">StockLedger</span>, and sets the request to <span class="k">PARTIAL_DELIVERY</span> or
+        <span class="k">FULLY_DELIVERED</span>, then routes to the requester to confirm receipt.
+      </p>
+    </div>
+  </main>
+</div>
+</body>
+</html>

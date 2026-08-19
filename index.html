@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Home — Supply Requests</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="shell">
+
+  <aside class="nav" aria-label="Main navigation">
+    <div class="brand">
+      <div class="brand-mark" aria-hidden="true">SR</div>
+      <div class="brand-name">Supply Requests<small>Garissa Field Office</small></div>
+    </div>
+    <div class="nav-group">
+      <div class="nav-label">General</div>
+      <a class="item" href="index.html" aria-current="page"><span class="glyph">⌂</span> Home</a>
+      <a class="item" href="new-request.html"><span class="glyph">＋</span> New request</a>
+    </div>
+    <div class="nav-group">
+      <div class="nav-label">Work queue</div>
+      <a class="item" href="review.html"><span class="glyph">☰</span> Review &amp; distribution</a>
+      <a class="item" href="distribute.html"><span class="glyph">⇥</span> Distribute</a>
+      <a class="item" href="receipt.html"><span class="glyph">✓</span> Confirm receipt</a>
+    </div>
+    <div class="nav-group">
+      <div class="nav-label">Manage</div>
+      <a class="item" href="admin.html"><span class="glyph">⚙</span> Catalogue &amp; matrix</a>
+      <a class="item" href="reports.html"><span class="glyph">◫</span> Reports</a>
+    </div>
+    <div class="nav-user">
+      <div class="avatar" aria-hidden="true">DO</div>
+      <div class="who">Daniel Otieno<small>Administrative Associate · Reviewer</small></div>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="topbar">
+      <h1>Home</h1>
+      <span class="persona">Viewing as: Reviewer · Garissa Field Office</span>
+      <span class="spacer"></span>
+      <a class="btn btn-primary" href="new-request.html">＋ New request</a>
+    </div>
+
+    <div class="content">
+
+      <!-- Role tiles -->
+      <div class="grid-3" style="margin-bottom:22px">
+        <div class="card tile">
+          <span class="t-num">4</span>
+          <span class="t-cap">Requests awaiting my action</span>
+          <span class="t-flag" style="color:var(--st-partial)">⚠ 1 held longer than 3 days</span>
+        </div>
+        <div class="card tile">
+          <span class="t-num">6</span>
+          <span class="t-cap">My open requests</span>
+          <span class="t-flag" style="color:var(--st-received)">✓ 2 delivered this week</span>
+        </div>
+        <div class="card tile">
+          <span class="t-num">3</span>
+          <span class="t-cap">Low-stock items in this office</span>
+          <span class="t-flag"><a href="admin.html">Open catalogue →</a></span>
+        </div>
+      </div>
+
+      <!-- Awaiting my action -->
+      <section class="card" style="margin-bottom:22px">
+        <div class="card-head">
+          <h2>Awaiting my action</h2>
+          <span class="count">4</span>
+          <span class="spacer" style="flex:1"></span>
+          <span style="font-size:11.5px;color:var(--ink-2)">Sorted by longest held</span>
+        </div>
+        <div class="card-body flush" style="overflow-x:auto">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Reference</th><th>Requester</th><th>Section</th><th>Items</th>
+                <th>Status</th><th>Held for</th><th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="row-link">
+                <td><a class="ref" href="request-detail.html">SR-202607-0038</a></td>
+                <td>Amina Yusuf</td><td>Programme</td><td class="num">5</td>
+                <td><span class="badge b-submitted"><span class="i">●</span> Submitted</span></td>
+                <td style="color:var(--st-partial);font-weight:600">4 days</td>
+                <td><a class="btn btn-sm" href="review.html">Review</a></td>
+              </tr>
+              <tr class="row-link">
+                <td><a class="ref" href="request-detail.html">SR-202607-0042</a></td>
+                <td>Halima Abdi</td><td>Child Protection</td><td class="num">3</td>
+                <td><span class="badge b-submitted"><span class="i">●</span> Submitted</span></td>
+                <td>2 days</td>
+                <td><a class="btn btn-sm" href="review.html">Review</a></td>
+              </tr>
+              <tr class="row-link">
+                <td><a class="ref" href="request-detail.html">SR-202607-0044</a></td>
+                <td>John Baraza</td><td>Health &amp; Nutrition</td><td class="num">2</td>
+                <td><span class="badge b-submitted"><span class="i">●</span> Submitted</span></td>
+                <td>1 day</td>
+                <td><a class="btn btn-sm" href="review.html">Review</a></td>
+              </tr>
+              <tr class="row-link">
+                <td><a class="ref" href="request-detail.html">SR-202607-0045</a></td>
+                <td>Mercy Achieng</td><td>Operations</td><td class="num">7</td>
+                <td><span class="badge b-submitted"><span class="i">●</span> Submitted</span></td>
+                <td>4 hours</td>
+                <td><a class="btn btn-sm" href="review.html">Review</a></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- My requests -->
+      <section class="card">
+        <div class="card-head">
+          <h2>My requests</h2>
+          <span class="count">6 open</span>
+        </div>
+        <div class="card-body flush" style="overflow-x:auto">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Reference</th><th>Submitted</th><th>Items</th>
+                <th>Status</th><th>Currently with</th><th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="row-link">
+                <td><a class="ref" href="request-detail.html">SR-202607-0029</a></td>
+                <td>3 Jul 2026</td><td class="num">4</td>
+                <td><span class="badge b-delivered"><span class="i">▣</span> Fully delivered</span></td>
+                <td>Me — confirm receipt</td>
+                <td><a class="btn btn-sm btn-primary" href="receipt.html">Confirm receipt</a></td>
+              </tr>
+              <tr class="row-link">
+                <td><a class="ref" href="request-detail.html">SR-202607-0035</a></td>
+                <td>8 Jul 2026</td><td class="num">2</td>
+                <td><span class="badge b-reviewed"><span class="i">◆</span> Reviewed</span></td>
+                <td>Samuel Kiptoo (Storekeeper)</td>
+                <td></td>
+              </tr>
+              <tr class="row-link">
+                <td><a class="ref" href="request-detail.html">SR-202607-0040</a></td>
+                <td>10 Jul 2026</td><td class="num">1</td>
+                <td><span class="badge b-returned"><span class="i">↩</span> Returned</span></td>
+                <td>Me — amend &amp; resubmit</td>
+                <td><a class="btn btn-sm" href="new-request.html">Edit</a></td>
+              </tr>
+              <tr class="row-link">
+                <td><a class="ref" href="request-detail.html">SR-202606-0114</a></td>
+                <td>26 Jun 2026</td><td class="num">6</td>
+                <td><span class="badge b-partial"><span class="i">◐</span> Partial delivery</span></td>
+                <td>Samuel Kiptoo (Storekeeper)</td>
+                <td></td>
+              </tr>
+              <tr class="row-link">
+                <td><a class="ref" href="request-detail.html">SR-202606-0102</a></td>
+                <td>19 Jun 2026</td><td class="num">3</td>
+                <td><span class="badge b-received"><span class="i">✓</span> Fully received</span></td>
+                <td>—</td>
+                <td></td>
+              </tr>
+              <tr class="row-link">
+                <td><a class="ref" href="request-detail.html">SR-202605-0087</a></td>
+                <td>28 May 2026</td><td class="num">2</td>
+                <td><span class="badge b-closed"><span class="i">■</span> Closed</span></td>
+                <td>—</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <p class="mock-note">
+        Mockup 1 of 8 — Home / Dashboard (strategy §8, screen 1; FR-RPT-001).
+        Data source: <span class="k">Requests</span> filtered on <span class="k">CurrentlyWith = Me()</span> and <span class="k">Requester = Me()</span>.
+      </p>
+    </div>
+  </main>
+</div>
+</body>
+</html>

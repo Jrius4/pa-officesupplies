@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Review SR-202607-0038 — Supply Requests</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="shell">
+
+  <aside class="nav" aria-label="Main navigation">
+    <div class="brand">
+      <div class="brand-mark" aria-hidden="true">SR</div>
+      <div class="brand-name">Supply Requests<small>Garissa Field Office</small></div>
+    </div>
+    <div class="nav-group">
+      <div class="nav-label">General</div>
+      <a class="item" href="index.html"><span class="glyph">⌂</span> Home</a>
+      <a class="item" href="new-request.html"><span class="glyph">＋</span> New request</a>
+    </div>
+    <div class="nav-group">
+      <div class="nav-label">Work queue</div>
+      <a class="item" href="review.html" aria-current="page"><span class="glyph">☰</span> Review &amp; distribution</a>
+      <a class="item" href="distribute.html"><span class="glyph">⇥</span> Distribute</a>
+      <a class="item" href="receipt.html"><span class="glyph">✓</span> Confirm receipt</a>
+    </div>
+    <div class="nav-group">
+      <div class="nav-label">Manage</div>
+      <a class="item" href="admin.html"><span class="glyph">⚙</span> Catalogue &amp; matrix</a>
+      <a class="item" href="reports.html"><span class="glyph">◫</span> Reports</a>
+    </div>
+    <div class="nav-user">
+      <div class="avatar" aria-hidden="true">DO</div>
+      <div class="who">Daniel Otieno<small>Administrative Associate · Reviewer</small></div>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="topbar">
+      <a href="request-detail.html" aria-label="Back to request" style="font-size:16px">←</a>
+      <h1>Review <span class="ref" style="font-size:15px">SR-202607-0038</span></h1>
+      <span class="badge b-submitted"><span class="i">●</span> Submitted</span>
+      <span class="persona">Viewing as: Reviewer</span>
+      <span class="spacer"></span>
+      <button class="btn">Return to requester</button>
+      <button class="btn btn-danger-quiet">Reject</button>
+      <button class="btn btn-primary">Proceed with distribution</button>
+    </div>
+
+    <div class="content" style="max-width:980px">
+
+      <div class="callout">
+        <span aria-hidden="true">ℹ</span>
+        <span>Set the quantity to distribute for each item — it may differ from what was requested when stock is short.
+        On <strong>Proceed</strong>, this request becomes <strong>Reviewed</strong> and goes to the
+        <strong>Chief Field Office (Fatuma Noor)</strong> to confirm. This office has no separate finance approval step.</span>
+      </div>
+
+      <section class="card">
+        <div class="card-head">
+          <h2>Specify distribution</h2>
+          <span class="count">5 items</span>
+        </div>
+        <div class="card-body flush" style="overflow-x:auto">
+          <table class="table">
+            <thead>
+              <tr>
+                <th style="width:32%">Item</th>
+                <th class="num">Requested</th>
+                <th class="num">In stock</th>
+                <th class="num">To distribute</th>
+                <th>Availability</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>A4 photocopy paper (ream)</td>
+                <td class="num">20</td>
+                <td class="num">64</td>
+                <td class="num"><input class="input qty" type="number" min="0" max="64" value="20" aria-label="Quantity to distribute: A4 paper"></td>
+                <td><span class="stock-ok">✓ In stock</span></td>
+              </tr>
+              <tr>
+                <td>Whiteboard markers (box of 10)</td>
+                <td class="num">4</td>
+                <td class="num">2</td>
+                <td class="num"><input class="input qty" type="number" min="0" max="2" value="2" aria-label="Quantity to distribute: whiteboard markers"></td>
+                <td><span class="stock-low">⚠ Only 2 available — partial</span></td>
+              </tr>
+              <tr>
+                <td>Flipchart pads</td>
+                <td class="num">6</td>
+                <td class="num">0 <span style="color:var(--ink-2)">(+ 15 in Nairobi CO)</span></td>
+                <td class="num"><input class="input qty" type="number" min="0" max="15" value="6" aria-label="Quantity to distribute: flipchart pads"></td>
+                <td><span class="stock-lend">⇄ From sharing office: Nairobi CO</span></td>
+              </tr>
+              <tr>
+                <td>Stapler, heavy duty</td>
+                <td class="num">2</td>
+                <td class="num">5</td>
+                <td class="num"><input class="input qty" type="number" min="0" max="5" value="2" aria-label="Quantity to distribute: stapler"></td>
+                <td><span class="stock-ok">✓ In stock</span></td>
+              </tr>
+              <tr>
+                <td>Field notebooks, A5 <em style="color:var(--ink-2)">(free text)</em></td>
+                <td class="num">30</td>
+                <td class="num">—</td>
+                <td class="num"><input class="input qty" type="number" min="0" value="0" aria-label="Quantity to distribute: field notebooks"></td>
+                <td><span class="stock-out">✕ Not a catalogue item — cannot be stocked</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="card-body" style="border-top:1px solid var(--line)">
+          <div class="field" style="max-width:620px;margin-bottom:0">
+            <label for="rev-note">Note to the requester <span class="hint">(required if any quantity differs from the request)</span></label>
+            <textarea id="rev-note" class="input" rows="2">Markers: only 2 boxes in stock — remainder will follow with the next replenishment. Notebooks are not stocked; please raise through programme supplies.</textarea>
+          </div>
+        </div>
+      </section>
+
+      <p class="mock-note">
+        Mockup 4 of 8 — Review &amp; distribution (strategy §8, screen 4; FR-REV-001..003, FR-STOCK-004, FR-SHARE-002).
+        Stock figures come from <span class="k">Catalogue</span>; the sharing fallback reads <span class="k">OfficeSharing</span>.
+        Return and Reject open a mandatory-reason dialog (NFR-AUD-003).
+      </p>
+    </div>
+  </main>
+</div>
+</body>
+</html>

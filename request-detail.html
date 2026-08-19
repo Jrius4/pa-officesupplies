@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SR-202607-0038 — Supply Requests</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="shell">
+
+  <aside class="nav" aria-label="Main navigation">
+    <div class="brand">
+      <div class="brand-mark" aria-hidden="true">SR</div>
+      <div class="brand-name">Supply Requests<small>Garissa Field Office</small></div>
+    </div>
+    <div class="nav-group">
+      <div class="nav-label">General</div>
+      <a class="item" href="index.html"><span class="glyph">⌂</span> Home</a>
+      <a class="item" href="new-request.html"><span class="glyph">＋</span> New request</a>
+    </div>
+    <div class="nav-group">
+      <div class="nav-label">Work queue</div>
+      <a class="item" href="review.html"><span class="glyph">☰</span> Review &amp; distribution</a>
+      <a class="item" href="distribute.html"><span class="glyph">⇥</span> Distribute</a>
+      <a class="item" href="receipt.html"><span class="glyph">✓</span> Confirm receipt</a>
+    </div>
+    <div class="nav-group">
+      <div class="nav-label">Manage</div>
+      <a class="item" href="admin.html"><span class="glyph">⚙</span> Catalogue &amp; matrix</a>
+      <a class="item" href="reports.html"><span class="glyph">◫</span> Reports</a>
+    </div>
+    <div class="nav-user">
+      <div class="avatar" aria-hidden="true">DO</div>
+      <div class="who">Daniel Otieno<small>Administrative Associate · Reviewer</small></div>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="topbar">
+      <a href="index.html" aria-label="Back to home" style="font-size:16px">←</a>
+      <h1><span class="ref" style="font-size:16px">SR-202607-0038</span></h1>
+      <span class="badge b-submitted"><span class="i">●</span> Submitted</span>
+      <span class="spacer"></span>
+      <a class="btn" href="#" >Reassign</a>
+      <a class="btn btn-primary" href="review.html">Review request</a>
+    </div>
+
+    <div class="content">
+
+      <!-- Header card: who / where / currently-with -->
+      <section class="card" style="margin-bottom:20px">
+        <div class="card-body" style="display:flex;gap:26px;flex-wrap:wrap;align-items:center">
+          <div style="display:flex;gap:11px;align-items:center">
+            <div class="avatar alt" aria-hidden="true">AY</div>
+            <div class="who" style="font-size:13px">
+              <strong>Amina Yusuf</strong>
+              <small style="display:block;color:var(--ink-2)">Requester · Programme, Garissa Field Office</small>
+            </div>
+          </div>
+          <div style="font-size:12.5px;color:var(--ink-2)">
+            Purpose<br><strong style="color:var(--ink)">Internal</strong>
+          </div>
+          <div style="font-size:12.5px;color:var(--ink-2)">
+            Submitted<br><strong style="color:var(--ink)">11 Jul 2026, 09:14</strong>
+          </div>
+          <span class="spacer" style="flex:1"></span>
+          <div>
+            <div style="font-size:11px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-3);margin-bottom:6px">Currently with</div>
+            <span class="chip">
+              <span class="avatar" aria-hidden="true">DO</span>
+              <span class="who">Daniel Otieno<small>Reviewer</small></span>
+              <span class="held">held 4 days</span>
+            </span>
+          </div>
+        </div>
+
+        <!-- Journey rail (signature element) -->
+        <div style="border-top:1px solid var(--line);padding:0 18px 18px">
+          <div class="journey">
+            <div class="leg done">
+              <div class="dot" aria-hidden="true">✓</div>
+              <div class="lbl">Submitted</div>
+              <div class="sub">11 Jul</div>
+            </div>
+            <div class="leg now">
+              <div class="dot" aria-hidden="true">●</div>
+              <div class="lbl">Review</div>
+              <div class="sub">Daniel Otieno</div>
+            </div>
+            <div class="leg skip">
+              <div class="dot" aria-hidden="true">–</div>
+              <div class="lbl">Approval</div>
+              <div class="sub">not required in this office</div>
+            </div>
+            <div class="leg todo">
+              <div class="dot" aria-hidden="true">4</div>
+              <div class="lbl">Confirm</div>
+              <div class="sub">Chief Field Office</div>
+            </div>
+            <div class="leg todo">
+              <div class="dot" aria-hidden="true">5</div>
+              <div class="lbl">Deliver</div>
+              <div class="sub">Storekeeper</div>
+            </div>
+            <div class="leg todo">
+              <div class="dot" aria-hidden="true">6</div>
+              <div class="lbl">Receive &amp; close</div>
+              <div class="sub">Requester</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Line items with quantity tracking -->
+      <section class="card">
+        <div class="card-head"><h2>Requested items</h2><span class="count">5</span></div>
+        <div class="card-body flush" style="overflow-x:auto">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Item</th><th>Purpose</th>
+                <th class="num">Requested</th><th class="num">Distributed</th>
+                <th class="num">Received</th><th class="num">Remaining</th><th>Tracking</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>A4 photocopy paper (ream)</td><td>Training workshop</td>
+                <td class="num">20</td><td class="num">0</td><td class="num">0</td><td class="num">20</td>
+                <td><span class="badge b-submitted"><span class="i">●</span> Pending</span></td>
+              </tr>
+              <tr>
+                <td>Whiteboard markers (box of 10)</td><td>Training workshop</td>
+                <td class="num">4</td><td class="num">0</td><td class="num">0</td><td class="num">4</td>
+                <td><span class="badge b-submitted"><span class="i">●</span> Pending</span></td>
+              </tr>
+              <tr>
+                <td>Flipchart pads</td><td>Training workshop</td>
+                <td class="num">6</td><td class="num">0</td><td class="num">0</td><td class="num">6</td>
+                <td><span class="badge b-submitted"><span class="i">●</span> Pending</span></td>
+              </tr>
+              <tr>
+                <td>Stapler, heavy duty</td><td>Section office</td>
+                <td class="num">2</td><td class="num">0</td><td class="num">0</td><td class="num">2</td>
+                <td><span class="badge b-submitted"><span class="i">●</span> Pending</span></td>
+              </tr>
+              <tr>
+                <td>Field notebooks, A5 <em style="color:var(--ink-2)">(free text)</em></td><td>Monitoring visits</td>
+                <td class="num">30</td><td class="num">0</td><td class="num">0</td><td class="num">30</td>
+                <td><span class="badge b-submitted"><span class="i">●</span> Pending</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Tabs: Timeline / Comments / Documents -->
+      <div class="tabs">
+        <input type="radio" name="tabs" id="tab-1" checked>
+        <input type="radio" name="tabs" id="tab-2">
+        <input type="radio" name="tabs" id="tab-3">
+        <div class="tab-list" role="tablist">
+          <label for="tab-1">Timeline</label>
+          <label for="tab-2">Comments (2)</label>
+          <label for="tab-3">Documents (1)</label>
+        </div>
+
+        <div class="tab-panel panel-1">
+          <ul class="timeline">
+            <li>
+              <div class="t-dot" aria-hidden="true">→</div>
+              <div class="t-body">
+                <div class="t-title">Routed to Reviewer</div>
+                <div class="t-meta">System · 11 Jul 2026, 09:14 · assigned to Daniel Otieno (OIC: Susan Njeri)</div>
+              </div>
+            </li>
+            <li>
+              <div class="t-dot" aria-hidden="true">●</div>
+              <div class="t-body">
+                <div class="t-title">Request submitted</div>
+                <div class="t-meta">Amina Yusuf · 11 Jul 2026, 09:14 · reference SR-202607-0038 issued</div>
+              </div>
+            </li>
+            <li>
+              <div class="t-dot" aria-hidden="true">✎</div>
+              <div class="t-body">
+                <div class="t-title">Draft created</div>
+                <div class="t-meta">Amina Yusuf · 10 Jul 2026, 16:42</div>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <div class="tab-panel panel-2">
+          <ul class="timeline">
+            <li>
+              <div class="t-dot" aria-hidden="true">💬</div>
+              <div class="t-body">
+                <div class="t-title">Amina Yusuf</div>
+                <div class="t-meta">11 Jul 2026, 09:20</div>
+                <div class="t-note">The workshop starts on 21 July — grateful if this can be reviewed this week.</div>
+              </div>
+            </li>
+            <li>
+              <div class="t-dot" aria-hidden="true">💬</div>
+              <div class="t-body">
+                <div class="t-title">Daniel Otieno</div>
+                <div class="t-meta">12 Jul 2026, 11:03</div>
+                <div class="t-note">Noted. Checking marker stock — we may substitute the box size.</div>
+              </div>
+            </li>
+          </ul>
+          <div class="field" style="max-width:560px">
+            <label for="comment">Add a comment</label>
+            <textarea id="comment" class="input" rows="2" placeholder="Visible to everyone on this request"></textarea>
+          </div>
+          <button class="btn">Post comment</button>
+        </div>
+
+        <div class="tab-panel panel-3">
+          <table class="table" style="max-width:640px">
+            <thead><tr><th>Document</th><th>Type</th><th>Added by</th><th></th></tr></thead>
+            <tbody>
+              <tr>
+                <td>SR-202607-0038-request.pdf</td><td>Request PDF</td><td>System · 11 Jul 2026</td>
+                <td><a href="#">Download</a></td>
+              </tr>
+            </tbody>
+          </table>
+          <button class="btn" style="margin-top:14px">Attach a file</button>
+        </div>
+      </div>
+
+      <p class="mock-note">
+        Mockup 3 of 8 — Request detail (strategy §8, screen 3). Journey rail shows the office’s configured chain from
+        <span class="k">ApprovalMatrix</span>; the dashed Approval stage is skipped because this office has no
+        <span class="k">APPROVE</span> row (TBC-1 resolution, §5.1). Primary action is computed from role × state (FR-AUTH-003, FR-UI-004).
+      </p>
+    </div>
+  </main>
+</div>
+</body>
+</html>
