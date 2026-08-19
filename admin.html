@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Catalogue &amp; matrix — Supply Requests</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="shell">
+
+  <aside class="nav" aria-label="Main navigation">
+    <div class="brand">
+      <div class="brand-mark" aria-hidden="true">SR</div>
+      <div class="brand-name">Supply Requests<small>All offices</small></div>
+    </div>
+    <div class="nav-group">
+      <div class="nav-label">General</div>
+      <a class="item" href="index.html"><span class="glyph">⌂</span> Home</a>
+      <a class="item" href="new-request.html"><span class="glyph">＋</span> New request</a>
+    </div>
+    <div class="nav-group">
+      <div class="nav-label">Work queue</div>
+      <a class="item" href="review.html"><span class="glyph">☰</span> Review &amp; distribution</a>
+      <a class="item" href="distribute.html"><span class="glyph">⇥</span> Distribute</a>
+      <a class="item" href="receipt.html"><span class="glyph">✓</span> Confirm receipt</a>
+    </div>
+    <div class="nav-group">
+      <div class="nav-label">Manage</div>
+      <a class="item" href="admin.html" aria-current="page"><span class="glyph">⚙</span> Catalogue &amp; matrix</a>
+      <a class="item" href="reports.html"><span class="glyph">◫</span> Reports</a>
+    </div>
+    <div class="nav-user">
+      <div class="avatar alt3" aria-hidden="true">PM</div>
+      <div class="who">Peter Mwangi<small>Administrator</small></div>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="topbar">
+      <h1>Catalogue &amp; approval matrix</h1>
+      <span class="persona">Viewing as: Administrator · all offices</span>
+      <span class="spacer"></span>
+    </div>
+
+    <div class="content">
+
+      <div class="tabs" style="margin-top:0">
+        <input type="radio" name="tabs" id="tab-1" checked>
+        <input type="radio" name="tabs" id="tab-2">
+        <input type="radio" name="tabs" id="tab-3">
+        <div class="tab-list" role="tablist">
+          <label for="tab-1">Approval matrix</label>
+          <label for="tab-2">Catalogue &amp; stock</label>
+          <label for="tab-3">Offices &amp; sharing</label>
+        </div>
+
+        <!-- Approval matrix -->
+        <div class="tab-panel panel-1">
+          <div style="display:flex;gap:12px;align-items:center;margin-bottom:14px;flex-wrap:wrap">
+            <div class="field" style="margin:0;min-width:230px">
+              <label for="mx-office">Office</label>
+              <select id="mx-office" class="select">
+                <option>Garissa Field Office</option>
+                <option>Nairobi Country Office</option>
+                <option>Kisumu Field Office</option>
+              </select>
+            </div>
+            <span class="spacer" style="flex:1"></span>
+            <button class="btn">Validate chain</button>
+            <button class="btn btn-primary">＋ Add step</button>
+          </div>
+
+          <div class="callout good">
+            <span aria-hidden="true">✓</span>
+            <span>Chain is contiguous and every step resolves to an active person. This office <strong>skips the finance
+            Approval stage</strong> — requests go from Review directly to the Chief Field Office.</span>
+          </div>
+
+          <section class="card">
+            <div class="card-body flush" style="overflow-x:auto">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Step</th><th>Stage</th><th>Section scope</th><th>Acts</th>
+                    <th>Named override</th><th>Officer in charge (OIC)</th><th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="num">1</td><td>SUBMIT → Review</td><td>All sections</td>
+                    <td><strong>Reviewer</strong> — Daniel Otieno</td><td>—</td><td>Susan Njeri</td>
+                    <td><a href="#">Edit</a></td>
+                  </tr>
+                  <tr>
+                    <td class="num">2</td><td>REVIEW → Confirm</td><td>All sections</td>
+                    <td><strong>Chief Field Office</strong> — Fatuma Noor</td><td>—</td><td>James Odhiambo</td>
+                    <td><a href="#">Edit</a></td>
+                  </tr>
+                  <tr>
+                    <td class="num">3</td><td>CONFIRM → Distribute</td><td>All sections</td>
+                    <td><strong>Storekeeper</strong> — Samuel Kiptoo</td><td>—</td><td>Lydia Chebet</td>
+                    <td><a href="#">Edit</a></td>
+                  </tr>
+                  <tr>
+                    <td class="num">4</td><td>DISTRIBUTE → Receipt</td><td>All sections</td>
+                    <td><strong>Requester</strong> (originator)</td><td>—</td><td>—</td>
+                    <td><a href="#">Edit</a></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+          <p style="font-size:11.5px;color:var(--ink-2);margin-top:10px">
+            Changes are audited (FR-ADM-004). Section-scoped rows override office-wide rows for the same stage.
+          </p>
+        </div>
+
+        <!-- Catalogue -->
+        <div class="tab-panel panel-2">
+          <div style="display:flex;gap:12px;align-items:center;margin-bottom:14px;flex-wrap:wrap">
+            <div class="field" style="margin:0;min-width:230px">
+              <label for="cat-office">Office</label>
+              <select id="cat-office" class="select"><option>Garissa Field Office</option></select>
+            </div>
+            <span class="spacer" style="flex:1"></span>
+            <button class="btn">Adjust stock</button>
+            <button class="btn btn-primary">＋ Add catalogue item</button>
+          </div>
+
+          <section class="card">
+            <div class="card-body flush" style="overflow-x:auto">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Item</th><th class="num">In stock</th><th class="num">Low-stock threshold</th>
+                    <th>Status</th><th>Added by</th><th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>A4 photocopy paper (ream)</td><td class="num">64</td><td class="num">25</td>
+                    <td><span class="badge b-received"><span class="i">✓</span> Active</span></td>
+                    <td>Peter Mwangi</td><td><a href="#">Edit</a></td>
+                  </tr>
+                  <tr>
+                    <td>Whiteboard markers (box of 10)</td><td class="num">2</td><td class="num">5</td>
+                    <td><span class="badge b-returned"><span class="i">⚠</span> Low stock</span></td>
+                    <td>Peter Mwangi</td><td><a href="#">Edit</a></td>
+                  </tr>
+                  <tr>
+                    <td>Archive boxes (pack of 5)</td><td class="num">0</td><td class="num">4</td>
+                    <td><span class="badge b-rejected"><span class="i">✕</span> Out of stock</span></td>
+                    <td>Samuel Kiptoo</td><td><a href="#">Edit</a></td>
+                  </tr>
+                  <tr>
+                    <td>Fax toner, Canon L100</td><td class="num">3</td><td class="num">—</td>
+                    <td><span class="badge b-closed"><span class="i">■</span> Discontinued</span></td>
+                    <td>Peter Mwangi</td><td><a href="#">Edit</a></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+          <p style="font-size:11.5px;color:var(--ink-2);margin-top:10px">
+            Stock figures change only through distributions and adjustments — every movement lands in the append-only
+            stock ledger with a running balance (FR-STOCK-002/003).
+          </p>
+        </div>
+
+        <!-- Offices & sharing -->
+        <div class="tab-panel panel-3">
+          <div class="grid-2">
+            <section class="card">
+              <div class="card-head"><h2>Offices</h2><span class="count">3</span></div>
+              <div class="card-body flush">
+                <table class="table">
+                  <thead><tr><th>Office</th><th>Code</th><th>Type</th></tr></thead>
+                  <tbody>
+                    <tr><td>Nairobi Country Office</td><td class="ref">NCO</td><td>Headquarters</td></tr>
+                    <tr><td>Garissa Field Office</td><td class="ref">GFO</td><td>Field office</td></tr>
+                    <tr><td>Kisumu Field Office</td><td class="ref">KFO</td><td>Field office</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </section>
+            <section class="card">
+              <div class="card-head"><h2>Supply sharing</h2></div>
+              <div class="card-body">
+                <p style="margin:0 0 12px;font-size:12.5px;color:var(--ink-2)">
+                  When a secondary office lacks stock, requests can be fulfilled from the primary office (FR-SHARE).
+                </p>
+                <table class="table">
+                  <thead><tr><th>Primary (lends)</th><th>Secondary (borrows)</th></tr></thead>
+                  <tbody>
+                    <tr><td>Nairobi Country Office</td><td>Garissa Field Office</td></tr>
+                    <tr><td>Nairobi Country Office</td><td>Kisumu Field Office</td></tr>
+                  </tbody>
+                </table>
+                <button class="btn btn-sm" style="margin-top:12px">＋ Add sharing link</button>
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
+
+      <p class="mock-note">
+        Mockup 7 of 8 — Org &amp; matrix administration (strategy §8, screens 7–8; FR-ADM, FR-CAT).
+        “Validate chain” runs the misconfiguration check from strategy §11.1 before any matrix change is saved.
+      </p>
+    </div>
+  </main>
+</div>
+</body>
+</html>

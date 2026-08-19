@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>New request — Supply Requests</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="shell">
+
+  <aside class="nav" aria-label="Main navigation">
+    <div class="brand">
+      <div class="brand-mark" aria-hidden="true">SR</div>
+      <div class="brand-name">Supply Requests<small>Garissa Field Office</small></div>
+    </div>
+    <div class="nav-group">
+      <div class="nav-label">General</div>
+      <a class="item" href="index.html"><span class="glyph">⌂</span> Home</a>
+      <a class="item" href="new-request.html" aria-current="page"><span class="glyph">＋</span> New request</a>
+    </div>
+    <div class="nav-group">
+      <div class="nav-label">Work queue</div>
+      <a class="item" href="review.html"><span class="glyph">☰</span> Review &amp; distribution</a>
+      <a class="item" href="distribute.html"><span class="glyph">⇥</span> Distribute</a>
+      <a class="item" href="receipt.html"><span class="glyph">✓</span> Confirm receipt</a>
+    </div>
+    <div class="nav-group">
+      <div class="nav-label">Manage</div>
+      <a class="item" href="admin.html"><span class="glyph">⚙</span> Catalogue &amp; matrix</a>
+      <a class="item" href="reports.html"><span class="glyph">◫</span> Reports</a>
+    </div>
+    <div class="nav-user">
+      <div class="avatar alt" aria-hidden="true">AY</div>
+      <div class="who">Amina Yusuf<small>Programme Officer · Requester</small></div>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="topbar">
+      <a href="index.html" aria-label="Back to home" style="font-size:16px">←</a>
+      <h1>New request</h1>
+      <span class="badge b-draft"><span class="i">✎</span> Draft</span>
+      <span class="persona">Viewing as: Requester</span>
+      <span class="spacer"></span>
+      <button class="btn">Save draft</button>
+      <button class="btn btn-primary">Submit request</button>
+    </div>
+
+    <div class="content" style="max-width:920px">
+
+      <section class="card" style="margin-bottom:20px">
+        <div class="card-head"><h2>Request details</h2></div>
+        <div class="card-body">
+          <div class="grid-3">
+            <div class="field">
+              <label for="office">Office</label>
+              <select id="office" class="select">
+                <option>Garissa Field Office</option>
+                <option>Nairobi Country Office</option>
+                <option>Kisumu Field Office</option>
+              </select>
+              <span class="hint">Defaulted from your profile</span>
+            </div>
+            <div class="field">
+              <label for="section">Section</label>
+              <select id="section" class="select">
+                <option>Programme</option>
+                <option>Child Protection</option>
+                <option>Health &amp; Nutrition</option>
+                <option>Operations</option>
+                <option>Supply &amp; Logistics</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="purpose">Purpose <span class="req" aria-hidden="true">*</span></label>
+              <select id="purpose" class="select">
+                <option>Internal</option>
+                <option>External</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="card-head">
+          <h2>Items</h2>
+          <span class="count">3</span>
+          <span class="spacer" style="flex:1"></span>
+          <button class="btn btn-sm">＋ Add item</button>
+        </div>
+        <div class="card-body flush" style="overflow-x:auto">
+          <table class="table">
+            <thead>
+              <tr>
+                <th style="width:38%">Product</th><th>Purpose</th>
+                <th class="num">Quantity</th><th>Notes</th><th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <select class="select" aria-label="Product for item 1">
+                    <option>A4 photocopy paper (ream)</option>
+                    <option>Whiteboard markers (box of 10)</option>
+                    <option>Flipchart pads</option>
+                    <option>Other (type it in)…</option>
+                  </select>
+                </td>
+                <td><input class="input" value="Training workshop" aria-label="Purpose for item 1"></td>
+                <td class="num"><input class="input qty" type="number" min="1" value="20" aria-label="Quantity for item 1"></td>
+                <td><input class="input" placeholder="Optional" aria-label="Notes for item 1"></td>
+                <td><button class="btn btn-sm btn-danger-quiet" aria-label="Remove item 1">✕</button></td>
+              </tr>
+              <tr>
+                <td>
+                  <select class="select" aria-label="Product for item 2">
+                    <option>Whiteboard markers (box of 10)</option>
+                    <option>A4 photocopy paper (ream)</option>
+                    <option>Other (type it in)…</option>
+                  </select>
+                </td>
+                <td><input class="input" value="Training workshop" aria-label="Purpose for item 2"></td>
+                <td class="num"><input class="input qty" type="number" min="1" value="4" aria-label="Quantity for item 2"></td>
+                <td><input class="input" placeholder="Optional" aria-label="Notes for item 2"></td>
+                <td><button class="btn btn-sm btn-danger-quiet" aria-label="Remove item 2">✕</button></td>
+              </tr>
+              <tr>
+                <td>
+                  <input class="input" value="Field notebooks, A5" aria-label="Product for item 3 (free text)">
+                  <span class="hint" style="display:block;margin-top:4px">Not in the catalogue — entered as free text</span>
+                </td>
+                <td><input class="input" value="Monitoring visits" aria-label="Purpose for item 3"></td>
+                <td class="num"><input class="input qty" type="number" min="1" value="30" aria-label="Quantity for item 3"></td>
+                <td><input class="input" placeholder="Optional" aria-label="Notes for item 3"></td>
+                <td><button class="btn btn-sm btn-danger-quiet" aria-label="Remove item 3">✕</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <div class="callout">
+        <span aria-hidden="true">ℹ</span>
+        <span>On submit, this request gets a reference number and goes to your office’s <strong>Reviewer, Daniel Otieno</strong>.
+        You can follow every step from your Home screen.</span>
+      </div>
+
+      <p class="mock-note">
+        Mockup 2 of 8 — New / Edit request (strategy §8, screen 2; FR-REQ-001..003, FR-ITEM-002).
+        Submit is blocked until at least one item has a positive quantity; the routing preview reads the office’s
+        <span class="k">ApprovalMatrix</span>.
+      </p>
+    </div>
+  </main>
+</div>
+</body>
+</html>

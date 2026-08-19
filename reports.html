@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Reports — Supply Requests</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+  /* Simple CSS bars for the mock analytics */
+  .bar-row { display: grid; grid-template-columns: 170px 1fr 52px; gap: 12px; align-items: center; margin-bottom: 12px; font-size: 12.5px; }
+  .bar-track { background: var(--canvas); border: 1px solid var(--line); border-radius: 3px; height: 18px; overflow: hidden; }
+  .bar-fill { height: 100%; background: var(--brand); }
+  .bar-fill.alt { background: #8764B8; }
+  .bar-row .val { text-align: right; font-variant-numeric: tabular-nums; font-weight: 600; }
+</style>
+</head>
+<body>
+<div class="shell">
+
+  <aside class="nav" aria-label="Main navigation">
+    <div class="brand">
+      <div class="brand-mark" aria-hidden="true">SR</div>
+      <div class="brand-name">Supply Requests<small>All offices</small></div>
+    </div>
+    <div class="nav-group">
+      <div class="nav-label">General</div>
+      <a class="item" href="index.html"><span class="glyph">⌂</span> Home</a>
+      <a class="item" href="new-request.html"><span class="glyph">＋</span> New request</a>
+    </div>
+    <div class="nav-group">
+      <div class="nav-label">Work queue</div>
+      <a class="item" href="review.html"><span class="glyph">☰</span> Review &amp; distribution</a>
+      <a class="item" href="distribute.html"><span class="glyph">⇥</span> Distribute</a>
+      <a class="item" href="receipt.html"><span class="glyph">✓</span> Confirm receipt</a>
+    </div>
+    <div class="nav-group">
+      <div class="nav-label">Manage</div>
+      <a class="item" href="admin.html"><span class="glyph">⚙</span> Catalogue &amp; matrix</a>
+      <a class="item" href="reports.html" aria-current="page"><span class="glyph">◫</span> Reports</a>
+    </div>
+    <div class="nav-user">
+      <div class="avatar alt3" aria-hidden="true">PM</div>
+      <div class="who">Peter Mwangi<small>Administrator</small></div>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="topbar">
+      <h1>Reports</h1>
+      <span class="persona">June–July 2026 · all offices</span>
+      <span class="spacer"></span>
+      <select class="select" style="width:auto" aria-label="Office filter"><option>All offices</option><option>Garissa FO</option><option>Nairobi CO</option></select>
+      <select class="select" style="width:auto" aria-label="Period filter"><option>Last 60 days</option><option>This quarter</option></select>
+      <a class="btn" href="#">Open in Power BI ↗</a>
+    </div>
+
+    <div class="content">
+
+      <div class="grid-3" style="margin-bottom:22px">
+        <div class="card tile">
+          <span class="t-num">128</span>
+          <span class="t-cap">Requests submitted</span>
+          <span class="t-flag" style="color:var(--st-received)">▲ 12% vs previous period</span>
+        </div>
+        <div class="card tile">
+          <span class="t-num">4.2 days</span>
+          <span class="t-cap">Median submission → delivery</span>
+          <span class="t-flag" style="color:var(--st-received)">▼ 0.8 days faster</span>
+        </div>
+        <div class="card tile">
+          <span class="t-num">7%</span>
+          <span class="t-cap">Returned or rejected</span>
+          <span class="t-flag" style="color:var(--st-partial)">▲ mostly missing purpose detail</span>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <section class="card">
+          <div class="card-head"><h2>Requests by office</h2></div>
+          <div class="card-body">
+            <div class="bar-row"><span>Nairobi Country Office</span><div class="bar-track"><div class="bar-fill" style="width:88%"></div></div><span class="val">61</span></div>
+            <div class="bar-row"><span>Garissa Field Office</span><div class="bar-track"><div class="bar-fill" style="width:62%"></div></div><span class="val">43</span></div>
+            <div class="bar-row"><span>Kisumu Field Office</span><div class="bar-track"><div class="bar-fill" style="width:35%"></div></div><span class="val">24</span></div>
+          </div>
+        </section>
+
+        <section class="card">
+          <div class="card-head"><h2>Median time held per stage</h2></div>
+          <div class="card-body">
+            <div class="bar-row"><span>Review</span><div class="bar-track"><div class="bar-fill alt" style="width:78%"></div></div><span class="val">1.9 d</span></div>
+            <div class="bar-row"><span>CFO confirmation</span><div class="bar-track"><div class="bar-fill alt" style="width:45%"></div></div><span class="val">1.1 d</span></div>
+            <div class="bar-row"><span>Distribution</span><div class="bar-track"><div class="bar-fill alt" style="width:33%"></div></div><span class="val">0.8 d</span></div>
+            <div class="bar-row"><span>Receipt confirmation</span><div class="bar-track"><div class="bar-fill alt" style="width:16%"></div></div><span class="val">0.4 d</span></div>
+            <p style="font-size:11.5px;color:var(--ink-2);margin:8px 0 0">
+              Computed from <span class="k" style="font-family:var(--mono)">ApprovalRouting</span> timestamps — Review is the bottleneck stage this period.
+            </p>
+          </div>
+        </section>
+      </div>
+
+      <section class="card" style="margin-top:20px">
+        <div class="card-head"><h2>Top consumed items</h2><span class="count">60 days</span></div>
+        <div class="card-body flush" style="overflow-x:auto">
+          <table class="table">
+            <thead>
+              <tr><th>Item</th><th>Office</th><th class="num">Distributed</th><th class="num">Current stock</th><th>Signal</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>A4 photocopy paper (ream)</td><td>All</td><td class="num">312</td><td class="num">190</td><td><span class="stock-ok">✓ Healthy</span></td></tr>
+              <tr><td>Ballpoint pens, blue (box of 50)</td><td>All</td><td class="num">57</td><td class="num">31</td><td><span class="stock-ok">✓ Healthy</span></td></tr>
+              <tr><td>Whiteboard markers (box of 10)</td><td>Garissa FO</td><td class="num">18</td><td class="num">2</td><td><span class="stock-low">⚠ Below threshold</span></td></tr>
+              <tr><td>Archive boxes (pack of 5)</td><td>Garissa FO</td><td class="num">22</td><td class="num">0</td><td><span class="stock-out">✕ Out of stock</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <p class="mock-note">
+        Mockup 8 of 8 — Reports (strategy §8, screen 9; FR-RPT-002/003). In-app view covers the essentials;
+        the full management model (volumes, cycle times, consumption, matrix bottlenecks) lives in Power BI.
+      </p>
+    </div>
+  </main>
+</div>
+</body>
+</html>
