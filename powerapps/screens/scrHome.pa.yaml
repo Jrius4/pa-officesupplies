@@ -1,0 +1,1330 @@
+# scrHome — COPIED BACK OUT OF STUDIO after a successful paste, 2 Sep 2026.
+# This is Studio's own normalisation: properties alphabetised, comments stripped.
+# The repo is downstream of Studio. Do not hand-edit and expect it to load —
+# edit, paste into Studio, then copy back out over this file.
+#
+# Extraction route: Studio -> screen ... -> View code -> Copy code, then `pbpaste`
+# in a shell. The Code dialog cannot be scrolled or scripted, but the clipboard works.
+Screens:
+  scrHome:
+    Properties:
+      Fill: =clrCanvas
+      LoadingSpinnerColor: =clrBrand
+      OnVisible: |
+        =Set(varPageTitle, "Home");
+        ClearCollect(
+            colAwaiting,
+            SortByColumns(
+                Filter(
+                    Requests,
+                    StatusRank < 70,
+                    Or(CurrentlyWithEmail = varUserEmail, CurrentlyWithOICEmail = varUserEmail)
+                ),
+                "SubmittedOn",
+                SortOrder.Ascending
+            )
+        );
+        ClearCollect(
+            colMine,
+            SortByColumns(
+                Filter(Requests, RequesterEmail = varUserEmail),
+                "SubmittedOn",
+                SortOrder.Descending
+            )
+        )
+    Children:
+      - recNavBg:
+          Control: Rectangle@2.3.0
+          Properties:
+            Fill: =clrSurface
+            Height: =Parent.Height
+            Width: =dimNavWidth
+      - recNavEdge:
+          Control: Rectangle@2.3.0
+          Properties:
+            Fill: =clrLine
+            Height: =Parent.Height
+            Width: =1
+            X: =dimNavWidth - 1
+      - recBrandMark:
+          Control: Classic/Button@2.2.0
+          Properties:
+            Fill: =clrBrand
+            Height: =dimBrandMark
+            HoverBorderColor: =Self.BorderColor
+            HoverFill: =Self.Fill
+            PressedBorderColor: =Self.BorderColor
+            PressedFill: =Self.Fill
+            RadiusBottomLeft: =rad6
+            RadiusBottomRight: =rad6
+            RadiusTopLeft: =rad6
+            RadiusTopRight: =rad6
+            Text: =""
+            Width: =dimBrandMark
+            X: =spc12
+            Y: =spc14
+      - lblBrandMark:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            Color: =clrOnBrand
+            Font: =fntUI
+            FontWeight: =FontWeight.Bold
+            Height: =dimBrandMark
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Size: =szSection
+            Text: ="SR"
+            Width: =dimBrandMark
+            X: =spc12
+            Y: =spc14
+      - lblBrandName:
+          Control: Label@2.5.1
+          Properties:
+            Color: =clrInk
+            Font: =fntUI
+            FontWeight: =FontWeight.Semibold
+            Height: =18
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Size: =szSection
+            Text: ="Supply Requests"
+            Width: =180
+            X: =spc12 + dimBrandMark + spc10
+            Y: =spc14
+      - lblBrandOffice:
+          Control: Label@2.5.1
+          Properties:
+            Color: =clrInk3
+            Font: =fntUI
+            Height: =16
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Size: =szMicro
+            Text: =Coalesce(LookUp(colOffices, Title = varMyOffice).OfficeName, "Field office")
+            Width: =180
+            X: =spc12 + dimBrandMark + spc10
+            Y: =spc14 + 18
+      - lblNavGeneral:
+          Control: Label@2.5.1
+          Properties:
+            Color: =clrInk3
+            Font: =fntUI
+            FontWeight: =FontWeight.Semibold
+            Height: =20
+            PaddingBottom: =spc6
+            PaddingLeft: =spc12
+            PaddingRight: =0
+            PaddingTop: =0
+            Size: =szMicro
+            Text: =Upper("General")
+            Width: =dimNavWidth
+            Y: =72
+      - galNavGeneral:
+          Control: Gallery@2.15.0
+          Variant: BrowseLayout_Vertical_TwoTextOneImageVariant_ver5.0
+          Properties:
+            Height: =2 * 36
+            Items: |
+              =Table(
+                  { Glyph: "⌂", Caption: "Home",        Target: "scrHome" },
+                  { Glyph: "＋", Caption: "New request", Target: "scrNewRequest" }
+              )
+            ShowScrollbar: =false
+            TemplateSize: =36
+            Width: =dimNavWidth
+            Y: =92
+          Children:
+            - recNavGenActive:
+                Control: Rectangle@2.3.0
+                Properties:
+                  Fill: =clrBrand
+                  Height: =Parent.TemplateHeight - spc8
+                  Visible: =ThisItem.Target = "scrHome"
+                  Width: =dimActiveBar
+                  Y: =spc4
+            - lblNavGenGlyph:
+                Control: Label@2.5.1
+                Properties:
+                  Align: =Align.Center
+                  Color: =If(ThisItem.Target = "scrHome", clrBrandDark, clrInk2)
+                  Font: =fntUI
+                  Height: =Parent.TemplateHeight
+                  PaddingBottom: =0
+                  PaddingLeft: =0
+                  PaddingRight: =0
+                  PaddingTop: =0
+                  Size: =szTable
+                  Text: =ThisItem.Glyph
+                  Width: =dimGlyph + spc10
+                  X: =spc12
+            - lblNavGenCaption:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =If(ThisItem.Target = "scrHome", clrBrandDark, clrInk)
+                  Font: =fntUI
+                  FontWeight: =If(ThisItem.Target = "scrHome", FontWeight.Semibold, FontWeight.Normal)
+                  Height: =Parent.TemplateHeight
+                  PaddingBottom: =0
+                  PaddingLeft: =0
+                  PaddingRight: =0
+                  PaddingTop: =0
+                  Size: =szBody
+                  Text: =ThisItem.Caption
+                  Width: =dimNavWidth - (spc12 + dimGlyph + spc10 + spc12)
+                  X: =spc12 + dimGlyph + spc10
+      - lblNavQueue:
+          Control: Label@2.5.1
+          Properties:
+            Color: =clrInk3
+            Font: =fntUI
+            FontWeight: =FontWeight.Semibold
+            Height: =20
+            PaddingBottom: =spc6
+            PaddingLeft: =spc12
+            PaddingRight: =0
+            PaddingTop: =0
+            Size: =szMicro
+            Text: =Upper("Work queue")
+            Width: =dimNavWidth
+            Y: =176
+      - galNavQueue:
+          Control: Gallery@2.15.0
+          Variant: BrowseLayout_Vertical_TwoTextOneImageVariant_ver5.0
+          Properties:
+            Height: =3 * 36
+            Items: |
+              =Table(
+                  { Glyph: "☰", Caption: "Review & distribution", Target: "scrReview" },
+                  { Glyph: "⇥", Caption: "Distribute",            Target: "scrDistribute" },
+                  { Glyph: "✓", Caption: "Confirm receipt",       Target: "scrReceipt" }
+              )
+            ShowScrollbar: =false
+            TemplateSize: =36
+            Width: =dimNavWidth
+            Y: =196
+          Children:
+            - lblNavQGlyph:
+                Control: Label@2.5.1
+                Properties:
+                  Align: =Align.Center
+                  Color: =clrInk2
+                  Font: =fntUI
+                  Height: =Parent.TemplateHeight
+                  PaddingBottom: =0
+                  PaddingLeft: =0
+                  PaddingRight: =0
+                  PaddingTop: =0
+                  Size: =szTable
+                  Text: =ThisItem.Glyph
+                  Width: =dimGlyph + spc10
+                  X: =spc12
+            - lblNavQCaption:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =clrInk
+                  Font: =fntUI
+                  Height: =Parent.TemplateHeight
+                  PaddingBottom: =0
+                  PaddingLeft: =0
+                  PaddingRight: =0
+                  PaddingTop: =0
+                  Size: =szBody
+                  Text: =ThisItem.Caption
+                  Width: =dimNavWidth - (spc12 + dimGlyph + spc10 + spc12)
+                  X: =spc12 + dimGlyph + spc10
+      - lblNavManage:
+          Control: Label@2.5.1
+          Properties:
+            Color: =clrInk3
+            Font: =fntUI
+            FontWeight: =FontWeight.Semibold
+            Height: =20
+            PaddingBottom: =spc6
+            PaddingLeft: =spc12
+            PaddingRight: =0
+            PaddingTop: =0
+            Size: =szMicro
+            Text: =Upper("Manage")
+            Width: =dimNavWidth
+            Y: =316
+      - galNavManage:
+          Control: Gallery@2.15.0
+          Variant: BrowseLayout_Vertical_TwoTextOneImageVariant_ver5.0
+          Properties:
+            Height: =2 * 36
+            Items: |
+              =Table(
+                  { Glyph: "⚙", Caption: "Catalogue & matrix", Target: "scrAdmin" },
+                  { Glyph: "◫", Caption: "Reports",            Target: "scrReports" }
+              )
+            ShowScrollbar: =false
+            TemplateSize: =36
+            Width: =dimNavWidth
+            Y: =336
+          Children:
+            - lblNavMGlyph:
+                Control: Label@2.5.1
+                Properties:
+                  Align: =Align.Center
+                  Color: =clrInk2
+                  Font: =fntUI
+                  Height: =Parent.TemplateHeight
+                  PaddingBottom: =0
+                  PaddingLeft: =0
+                  PaddingRight: =0
+                  PaddingTop: =0
+                  Size: =szTable
+                  Text: =ThisItem.Glyph
+                  Width: =dimGlyph + spc10
+                  X: =spc12
+            - lblNavMCaption:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =clrInk
+                  Font: =fntUI
+                  Height: =Parent.TemplateHeight
+                  PaddingBottom: =0
+                  PaddingLeft: =0
+                  PaddingRight: =0
+                  PaddingTop: =0
+                  Size: =szBody
+                  Text: =ThisItem.Caption
+                  Width: =dimNavWidth - (spc12 + dimGlyph + spc10 + spc12)
+                  X: =spc12 + dimGlyph + spc10
+      - recNavUserEdge:
+          Control: Rectangle@2.3.0
+          Properties:
+            Fill: =clrLine
+            Height: =1
+            Width: =dimNavWidth
+            Y: =Parent.Height - 60
+      - recAvatar:
+          Control: Classic/Button@2.2.0
+          Properties:
+            Fill: =clrAvatar
+            Height: =dimAvatar
+            HoverBorderColor: =Self.BorderColor
+            HoverFill: =Self.Fill
+            PressedBorderColor: =Self.BorderColor
+            PressedFill: =Self.Fill
+            RadiusBottomLeft: =radCircle
+            RadiusBottomRight: =radCircle
+            RadiusTopLeft: =radCircle
+            RadiusTopRight: =radCircle
+            Text: =""
+            Width: =dimAvatar
+            X: =spc12
+            Y: =Parent.Height - 46
+      - lblAvatar:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            Color: =clrOnBrand
+            Font: =fntUI
+            FontWeight: =FontWeight.Bold
+            Height: =dimAvatar
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Size: =szMicro
+            Text: =Left(varUserName, 1) & Left(Last(Split(varUserName, " ")).Value, 1)
+            Width: =dimAvatar
+            X: =spc12
+            Y: =Parent.Height - 46
+      - lblUserName:
+          Control: Label@2.5.1
+          Properties:
+            Color: =clrInk
+            Font: =fntUI
+            FontWeight: =FontWeight.Semibold
+            Height: =16
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Size: =szLabel
+            Text: =varUserName
+            Width: =dimNavWidth - (spc12 + dimAvatar + spc10 + spc12)
+            X: =spc12 + dimAvatar + spc10
+            Y: =Parent.Height - 48
+      - lblUserRole:
+          Control: Label@2.5.1
+          Properties:
+            Color: =clrInk3
+            Font: =fntUI
+            Height: =14
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Size: =szMicro
+            Text: =Concat(colMyRoles, RoleCode.Value, " · ")
+            Width: =dimNavWidth - (spc12 + dimAvatar + spc10 + spc12)
+            X: =spc12 + dimAvatar + spc10
+            Y: =Parent.Height - 32
+      - recTopBg:
+          Control: Rectangle@2.3.0
+          Properties:
+            Fill: =clrSurface
+            Height: =56
+            Width: =Parent.Width - dimNavWidth
+            X: =dimNavWidth
+      - recTopEdge:
+          Control: Rectangle@2.3.0
+          Properties:
+            Fill: =clrLine
+            Height: =1
+            Width: =Parent.Width - dimNavWidth
+            X: =dimNavWidth
+            Y: =55
+      - lblPageTitle:
+          Control: Label@2.5.1
+          Properties:
+            Color: =clrInk
+            Font: =fntUI
+            FontWeight: =FontWeight.Semibold
+            Height: =56
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Size: =szPageTitle
+            Text: ="Home"
+            Width: =120
+            X: =dimNavWidth + spc28
+      - lblPersona:
+          Control: Label@2.5.1
+          Properties:
+            Color: =clrInk2
+            Font: =fntUI
+            Height: =56
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Size: =szCaption
+            Text: |
+              ="Viewing as: " & Coalesce(First(colMyRoles).RoleCode.Value, "No role")
+                & " · " & Coalesce(LookUp(colOffices, Title = varOffice).OfficeName, varOffice)
+            Width: =360
+            X: =dimNavWidth + spc28 + 120
+      - btnNewRequest:
+          Control: Classic/Button@2.2.0
+          Properties:
+            BorderColor: =clrBrand
+            Color: =clrOnBrand
+            Fill: =clrBrand
+            Font: =fntUI
+            Height: =34
+            HoverBorderColor: =clrBrandDark
+            HoverColor: =clrOnBrand
+            HoverFill: =clrBrandDark
+            OnSelect: =Navigate(scrNewRequest, ScreenTransition.None)
+            PressedColor: =clrOnBrand
+            PressedFill: =clrBrandDark
+            RadiusBottomLeft: =rad4
+            RadiusBottomRight: =rad4
+            RadiusTopLeft: =rad4
+            RadiusTopRight: =rad4
+            Size: =szControl
+            Text: ="＋ New request"
+            Width: =140
+            X: =Parent.Width - spc28 - 140
+            Y: =11
+      - recTile1:
+          Control: Classic/Button@2.2.0
+          Properties:
+            BorderColor: =clrLine
+            BorderThickness: =1
+            Fill: =clrSurface
+            Height: =96
+            HoverBorderColor: =Self.BorderColor
+            HoverFill: =Self.Fill
+            PressedBorderColor: =Self.BorderColor
+            PressedFill: =Self.Fill
+            RadiusBottomLeft: =rad6
+            RadiusBottomRight: =rad6
+            RadiusTopLeft: =rad6
+            RadiusTopRight: =rad6
+            Text: =""
+            Width: =(Parent.Width - dimNavWidth - 2 * spc28 - 2 * spc16) / 3
+            X: =dimNavWidth + spc28
+            Y: =56 + spc24
+      - lblTile1Num:
+          Control: Label@2.5.1
+          Properties:
+            Color: =clrInk
+            Font: =fntUI
+            FontWeight: =FontWeight.Bold
+            Height: =34
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Size: =szDisplay
+            Text: =Text(CountRows(colAwaiting))
+            Width: =recTile1.Width - 2 * spc18
+            X: =recTile1.X + spc18
+            Y: =recTile1.Y + spc14
+      - lblTile1Cap:
+          Control: Label@2.5.1
+          Properties:
+            Color: =clrInk2
+            Font: =fntUI
+            Height: =18
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Size: =szLabel
+            Text: ="Requests awaiting my action"
+            Width: =recTile1.Width - 2 * spc18
+            X: =recTile1.X + spc18
+            Y: =recTile1.Y + spc14 + 32
+      - lblTile1Flag:
+          Control: Label@2.5.1
+          Properties:
+            Color: =clrStPartial
+            Font: =fntUI
+            FontWeight: =FontWeight.Semibold
+            Height: =16
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Size: =szCaption
+            Text: |
+              ="⚠ " & Text(CountRows(Filter(colAwaiting, DateDiff(SubmittedOn, Now(), TimeUnit.Days) > 3)))
+                & " held longer than 3 days"
+            Width: =recTile1.Width - 2 * spc18
+            X: =recTile1.X + spc18
+            Y: =recTile1.Y + spc14 + 52
+      - recTile2:
+          Control: Classic/Button@2.2.0
+          Properties:
+            BorderColor: =clrLine
+            BorderThickness: =1
+            Fill: =clrSurface
+            Height: =96
+            HoverBorderColor: =Self.BorderColor
+            HoverFill: =Self.Fill
+            PressedBorderColor: =Self.BorderColor
+            PressedFill: =Self.Fill
+            RadiusBottomLeft: =rad6
+            RadiusBottomRight: =rad6
+            RadiusTopLeft: =rad6
+            RadiusTopRight: =rad6
+            Text: =""
+            Width: =recTile1.Width
+            X: =recTile1.X + recTile1.Width + spc16
+            Y: =recTile1.Y
+      - lblTile2Num:
+          Control: Label@2.5.1
+          Properties:
+            Color: =clrInk
+            Font: =fntUI
+            FontWeight: =FontWeight.Bold
+            Height: =34
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Size: =szDisplay
+            Text: =Text(CountRows(Filter(colMine, StatusRank < 70)))
+            Width: =recTile2.Width - 2 * spc18
+            X: =recTile2.X + spc18
+            Y: =recTile2.Y + spc14
+      - lblTile2Cap:
+          Control: Label@2.5.1
+          Properties:
+            Color: =clrInk2
+            Font: =fntUI
+            Height: =18
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Size: =szLabel
+            Text: ="My open requests"
+            Width: =recTile2.Width - 2 * spc18
+            X: =recTile2.X + spc18
+            Y: =recTile2.Y + spc14 + 32
+      - lblTile2Flag:
+          Control: Label@2.5.1
+          Properties:
+            Color: =clrStReceived
+            Font: =fntUI
+            FontWeight: =FontWeight.Semibold
+            Height: =16
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Size: =szCaption
+            Text: |
+              ="✓ " & Text(CountRows(Filter(colMine, StatusRank >= 50, StatusRank < 70)))
+                & " delivered or received"
+            Width: =recTile2.Width - 2 * spc18
+            X: =recTile2.X + spc18
+            Y: =recTile2.Y + spc14 + 52
+      - recTile3:
+          Control: Classic/Button@2.2.0
+          Properties:
+            BorderColor: =clrLine
+            BorderThickness: =1
+            Fill: =clrSurface
+            Height: =96
+            HoverBorderColor: =Self.BorderColor
+            HoverFill: =Self.Fill
+            PressedBorderColor: =Self.BorderColor
+            PressedFill: =Self.Fill
+            RadiusBottomLeft: =rad6
+            RadiusBottomRight: =rad6
+            RadiusTopLeft: =rad6
+            RadiusTopRight: =rad6
+            Text: =""
+            Width: =recTile1.Width
+            X: =recTile2.X + recTile2.Width + spc16
+            Y: =recTile1.Y
+      - lblTile3Num:
+          Control: Label@2.5.1
+          Properties:
+            Color: =clrInk
+            Font: =fntUI
+            FontWeight: =FontWeight.Bold
+            Height: =34
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Size: =szDisplay
+            Text: |
+              =Text(
+                  CountRows(
+                      Filter(Catalogue, OfficeCode = varOffice, IsActive = true, StockQty <= ReorderLevel)
+                  )
+              )
+            Width: =recTile3.Width - 2 * spc18
+            X: =recTile3.X + spc18
+            Y: =recTile3.Y + spc14
+      - lblTile3Cap:
+          Control: Label@2.5.1
+          Properties:
+            Color: =clrInk2
+            Font: =fntUI
+            Height: =18
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Size: =szLabel
+            Text: ="Low-stock items in this office"
+            Width: =recTile3.Width - 2 * spc18
+            X: =recTile3.X + spc18
+            Y: =recTile3.Y + spc14 + 32
+      - btnTile3Link:
+          Control: Classic/Button@2.2.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderThickness: =0
+            Color: =clrBrandDark
+            Fill: =RGBA(0, 0, 0, 0)
+            Font: =fntUI
+            Height: =18
+            HoverColor: =clrBrand
+            HoverFill: =RGBA(0, 0, 0, 0)
+            OnSelect: =Navigate(scrAdmin, ScreenTransition.None)
+            PaddingLeft: =0
+            PressedColor: =clrBrand
+            PressedFill: =RGBA(0, 0, 0, 0)
+            Size: =szCaption
+            Text: ="Open catalogue →"
+            Width: =140
+            X: =recTile3.X + spc18
+            Y: =recTile3.Y + spc14 + 52
+      - recCard1:
+          Control: Classic/Button@2.2.0
+          Properties:
+            BorderColor: =clrLine
+            BorderThickness: =1
+            Fill: =clrSurface
+            Height: =56 + 32 + 4 * 44
+            HoverBorderColor: =Self.BorderColor
+            HoverFill: =Self.Fill
+            PressedBorderColor: =Self.BorderColor
+            PressedFill: =Self.Fill
+            RadiusBottomLeft: =rad6
+            RadiusBottomRight: =rad6
+            RadiusTopLeft: =rad6
+            RadiusTopRight: =rad6
+            Text: =""
+            Width: =Parent.Width - dimNavWidth - 2 * spc28
+            X: =dimNavWidth + spc28
+            Y: =recTile1.Y + 96 + spc22
+      - lblCard1Title:
+          Control: Label@2.5.1
+          Properties:
+            Color: =clrInk
+            Font: =fntUI
+            FontWeight: =FontWeight.Semibold
+            Height: =44
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Size: =szCardTitle
+            Text: ="Awaiting my action"
+            Width: =220
+            X: =recCard1.X + spc14
+            Y: =recCard1.Y
+      - lblCard1Count:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            Color: =clrInk2
+            Font: =fntUI
+            FontWeight: =FontWeight.Semibold
+            Height: =20
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Size: =szCaption
+            Text: =Text(CountRows(colAwaiting))
+            Width: =28
+            X: =recCard1.X + spc14 + 150
+            Y: =recCard1.Y + 12
+      - lblCard1Hint:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Right
+            Color: =clrInk2
+            Font: =fntUI
+            Height: =44
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Size: =szCaption
+            Text: ="Sorted by longest held"
+            Width: =220
+            X: =recCard1.X + recCard1.Width - spc14 - 220
+            Y: =recCard1.Y
+      - recCard1HeadEdge:
+          Control: Rectangle@2.3.0
+          Properties:
+            Fill: =clrLine
+            Height: =1
+            Width: =recCard1.Width
+            X: =recCard1.X
+            Y: =recCard1.Y + 44
+      - lblA_hRef:
+          Control: Label@2.5.1
+          Properties:
+            Color: =clrInk2
+            Font: =fntUI
+            FontWeight: =FontWeight.Semibold
+            Height: =32
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Size: =szCaption
+            Text: =Upper("Reference")
+            Width: =160
+            X: =recCard1.X + spc14
+            Y: =recCard1.Y + 45
+      - lblA_hReq:
+          Control: Label@2.5.1
+          Properties:
+            Color: =clrInk2
+            Font: =fntUI
+            FontWeight: =FontWeight.Semibold
+            Height: =32
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Size: =szCaption
+            Text: =Upper("Requester")
+            Width: =180
+            X: =recCard1.X + spc14 + 160
+            Y: =recCard1.Y + 45
+      - lblA_hSec:
+          Control: Label@2.5.1
+          Properties:
+            Color: =clrInk2
+            Font: =fntUI
+            FontWeight: =FontWeight.Semibold
+            Height: =32
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Size: =szCaption
+            Text: =Upper("Section")
+            Width: =170
+            X: =recCard1.X + spc14 + 340
+            Y: =recCard1.Y + 45
+      - lblA_hItems:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Right
+            Color: =clrInk2
+            Font: =fntUI
+            FontWeight: =FontWeight.Semibold
+            Height: =32
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Size: =szCaption
+            Text: =Upper("Items")
+            Width: =60
+            X: =recCard1.X + spc14 + 510
+            Y: =recCard1.Y + 45
+      - lblA_hStatus:
+          Control: Label@2.5.1
+          Properties:
+            Color: =clrInk2
+            Font: =fntUI
+            FontWeight: =FontWeight.Semibold
+            Height: =32
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Size: =szCaption
+            Text: =Upper("Status")
+            Width: =160
+            X: =recCard1.X + spc14 + 590
+            Y: =recCard1.Y + 45
+      - lblA_hHeld:
+          Control: Label@2.5.1
+          Properties:
+            Color: =clrInk2
+            Font: =fntUI
+            FontWeight: =FontWeight.Semibold
+            Height: =32
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Size: =szCaption
+            Text: =Upper("Held for")
+            Width: =110
+            X: =recCard1.X + spc14 + 750
+            Y: =recCard1.Y + 45
+      - recCard1HeadRule:
+          Control: Rectangle@2.3.0
+          Properties:
+            Fill: =clrLine
+            Height: =1
+            Width: =recCard1.Width
+            X: =recCard1.X
+            Y: =recCard1.Y + 77
+      - galAwaiting:
+          Control: Gallery@2.15.0
+          Variant: BrowseLayout_Vertical_TwoTextOneImageVariant_ver5.0
+          Properties:
+            Height: =recCard1.Height - 78
+            Items: =colAwaiting
+            TemplateSize: =44
+            Width: =recCard1.Width
+            X: =recCard1.X
+            Y: =recCard1.Y + 78
+          Children:
+            - recAwRowRule:
+                Control: Rectangle@2.3.0
+                Properties:
+                  Fill: =clrLine
+                  Height: =1
+                  Width: =Parent.TemplateWidth
+                  Y: =Parent.TemplateHeight - 1
+            - lblAwRef:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =clrBrandDark
+                  Font: =fntMono
+                  FontWeight: =FontWeight.Semibold
+                  Height: =Parent.TemplateHeight
+                  OnSelect: =Set(varRef, ThisItem.Title); Navigate(scrRequestDetail, ScreenTransition.None)
+                  PaddingBottom: =0
+                  PaddingLeft: =0
+                  PaddingRight: =0
+                  PaddingTop: =0
+                  Size: =szTable
+                  Text: =ThisItem.Title
+                  Width: =160
+                  X: =spc14
+            - lblAwRequester:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =clrInk
+                  Font: =fntUI
+                  Height: =Parent.TemplateHeight
+                  OnSelect: =Select(Parent)
+                  PaddingBottom: =0
+                  PaddingLeft: =0
+                  PaddingRight: =0
+                  PaddingTop: =0
+                  Size: =szTable
+                  Text: =ThisItem.RequesterEmail
+                  Width: =180
+                  X: =spc14 + 160
+            - lblAwSection:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =clrInk
+                  Font: =fntUI
+                  Height: =Parent.TemplateHeight
+                  OnSelect: =Select(Parent)
+                  PaddingBottom: =0
+                  PaddingLeft: =0
+                  PaddingRight: =0
+                  PaddingTop: =0
+                  Size: =szTable
+                  Text: =ThisItem.Section.Value
+                  Width: =170
+                  X: =spc14 + 340
+            - lblAwItems:
+                Control: Label@2.5.1
+                Properties:
+                  Align: =Align.Right
+                  Color: =clrInk
+                  Font: =fntUI
+                  Height: =Parent.TemplateHeight
+                  OnSelect: =Select(Parent)
+                  PaddingBottom: =0
+                  PaddingLeft: =0
+                  PaddingRight: =0
+                  PaddingTop: =0
+                  Size: =szTable
+                  Text: =Text(ThisItem.LineCount)
+                  Width: =60
+                  X: =spc14 + 510
+            - recAwStatusBg:
+                Control: Classic/Button@2.2.0
+                Properties:
+                  Fill: =Coalesce(LookUp(tblStatus, StatusText = ThisItem.Status.Value).Bg, clrStDraftBg)
+                  Height: =22
+                  HoverBorderColor: =Self.BorderColor
+                  HoverFill: =Self.Fill
+                  OnSelect: =Select(Parent)
+                  PressedBorderColor: =Self.BorderColor
+                  PressedFill: =Self.Fill
+                  RadiusBottomLeft: =radPill
+                  RadiusBottomRight: =radPill
+                  RadiusTopLeft: =radPill
+                  RadiusTopRight: =radPill
+                  Text: =""
+                  Width: =140
+                  X: =spc14 + 590
+                  Y: =(Parent.TemplateHeight / 2) - 11
+            - lblAwStatusGlyph:
+                Control: Label@2.5.1
+                Properties:
+                  Align: =Align.Center
+                  Color: =Coalesce(LookUp(tblStatus, StatusText = ThisItem.Status.Value).Fg, clrInk2)
+                  Font: =fntUI
+                  Height: =22
+                  PaddingBottom: =0
+                  PaddingLeft: =0
+                  PaddingRight: =0
+                  PaddingTop: =0
+                  Size: =szBadge
+                  Text: =Coalesce(LookUp(tblStatus, StatusText = ThisItem.Status.Value).Glyph, "•")
+                  Width: =18
+                  X: =spc14 + 590 + spc8
+                  Y: =(Parent.TemplateHeight / 2) - 11
+            - lblAwStatusText:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =Coalesce(LookUp(tblStatus, StatusText = ThisItem.Status.Value).Fg, clrInk2)
+                  Font: =fntUI
+                  FontWeight: =FontWeight.Semibold
+                  Height: =22
+                  PaddingBottom: =0
+                  PaddingLeft: =0
+                  PaddingRight: =0
+                  PaddingTop: =0
+                  Size: =szBadge
+                  Text: =ThisItem.Status.Value
+                  Width: =108
+                  X: =spc14 + 590 + spc8 + 20
+                  Y: =(Parent.TemplateHeight / 2) - 11
+            - lblAwHeld:
+                Control: Label@2.5.1
+                Properties:
+                  Color: |
+                    =If(
+                        DateDiff(ThisItem.SubmittedOn, Now(), TimeUnit.Days) > 3,
+                        clrStPartial,
+                        clrInk
+                    )
+                  Font: =fntUI
+                  FontWeight: |
+                    =If(
+                        DateDiff(ThisItem.SubmittedOn, Now(), TimeUnit.Days) > 3,
+                        FontWeight.Semibold,
+                        FontWeight.Normal
+                    )
+                  Height: =Parent.TemplateHeight
+                  OnSelect: =Select(Parent)
+                  PaddingBottom: =0
+                  PaddingLeft: =0
+                  PaddingRight: =0
+                  PaddingTop: =0
+                  Size: =szTable
+                  Text: |
+                    =With(
+                        { d: DateDiff(ThisItem.SubmittedOn, Now(), TimeUnit.Days) },
+                        If(d >= 1, Text(d) & If(d = 1, " day", " days"),
+                           Text(DateDiff(ThisItem.SubmittedOn, Now(), TimeUnit.Hours)) & " hours")
+                    )
+                  Width: =110
+                  X: =spc14 + 750
+            - btnAwAction:
+                Control: Classic/Button@2.2.0
+                Properties:
+                  BorderColor: =clrLineStrong
+                  Color: =clrInk
+                  Fill: =clrSurface
+                  Font: =fntUI
+                  Height: =28
+                  HoverColor: =clrInk
+                  HoverFill: =clrCanvas
+                  OnSelect: =Set(varRef, ThisItem.Title); Navigate(scrReview, ScreenTransition.None)
+                  PressedColor: =clrInk
+                  PressedFill: =clrLine
+                  RadiusBottomLeft: =rad4
+                  RadiusBottomRight: =rad4
+                  RadiusTopLeft: =rad4
+                  RadiusTopRight: =rad4
+                  Size: =szLabel
+                  Text: ="Review"
+                  Width: =80
+                  X: =Parent.TemplateWidth - spc14 - 80
+                  Y: =(Parent.TemplateHeight / 2) - 14
+      - recCard2:
+          Control: Classic/Button@2.2.0
+          Properties:
+            BorderColor: =clrLine
+            BorderThickness: =1
+            Fill: =clrSurface
+            Height: =44 + 33 + 6 * 44
+            HoverBorderColor: =Self.BorderColor
+            HoverFill: =Self.Fill
+            PressedBorderColor: =Self.BorderColor
+            PressedFill: =Self.Fill
+            RadiusBottomLeft: =rad6
+            RadiusBottomRight: =rad6
+            RadiusTopLeft: =rad6
+            RadiusTopRight: =rad6
+            Text: =""
+            Width: =Parent.Width - dimNavWidth - 2 * spc28
+            X: =dimNavWidth + spc28
+            Y: =427
+      - lblCard2Title:
+          Control: Label@2.5.1
+          Properties:
+            Color: =clrInk
+            Font: =fntUI
+            FontWeight: =FontWeight.Semibold
+            Height: =44
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Size: =szCardTitle
+            Text: ="My requests"
+            Width: =160
+            X: =recCard2.X + spc14
+            Y: =recCard2.Y
+      - lblCard2Count:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            Color: =clrInk2
+            Font: =fntUI
+            FontWeight: =FontWeight.Semibold
+            Height: =20
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Size: =szCaption
+            Text: =Text(CountRows(Filter(colMine, StatusRank < 70))) & " open"
+            Width: =60
+            X: =recCard2.X + spc14 + 110
+            Y: =recCard2.Y + 12
+      - recCard2HeadEdge:
+          Control: Rectangle@2.3.0
+          Properties:
+            Fill: =clrLine
+            Height: =1
+            Width: =recCard2.Width
+            X: =recCard2.X
+            Y: =recCard2.Y + 44
+      - lblM_hRef:
+          Control: Label@2.5.1
+          Properties:
+            Color: =clrInk2
+            Font: =fntUI
+            FontWeight: =FontWeight.Semibold
+            Height: =32
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Size: =szCaption
+            Text: =Upper("Reference")
+            Width: =160
+            X: =recCard2.X + spc14
+            Y: =recCard2.Y + 45
+      - lblM_hSub:
+          Control: Label@2.5.1
+          Properties:
+            Color: =clrInk2
+            Font: =fntUI
+            FontWeight: =FontWeight.Semibold
+            Height: =32
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Size: =szCaption
+            Text: =Upper("Submitted")
+            Width: =160
+            X: =recCard2.X + spc14 + 160
+            Y: =recCard2.Y + 45
+      - lblM_hItems:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Right
+            Color: =clrInk2
+            Font: =fntUI
+            FontWeight: =FontWeight.Semibold
+            Height: =32
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Size: =szCaption
+            Text: =Upper("Items")
+            Width: =60
+            X: =recCard2.X + spc14 + 330
+            Y: =recCard2.Y + 45
+      - lblM_hStatus:
+          Control: Label@2.5.1
+          Properties:
+            Color: =clrInk2
+            Font: =fntUI
+            FontWeight: =FontWeight.Semibold
+            Height: =32
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Size: =szCaption
+            Text: =Upper("Status")
+            Width: =160
+            X: =recCard2.X + spc14 + 410
+            Y: =recCard2.Y + 45
+      - lblM_hWith:
+          Control: Label@2.5.1
+          Properties:
+            Color: =clrInk2
+            Font: =fntUI
+            FontWeight: =FontWeight.Semibold
+            Height: =32
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Size: =szCaption
+            Text: =Upper("Currently with")
+            Width: =240
+            X: =recCard2.X + spc14 + 580
+            Y: =recCard2.Y + 45
+      - recCard2HeadRule:
+          Control: Rectangle@2.3.0
+          Properties:
+            Fill: =clrLine
+            Height: =1
+            Width: =recCard2.Width
+            X: =recCard2.X
+            Y: =recCard2.Y + 77
+      - galMine:
+          Control: Gallery@2.15.0
+          Variant: BrowseLayout_Vertical_TwoTextOneImageVariant_ver5.0
+          Properties:
+            Height: =recCard2.Height - 78
+            Items: =colMine
+            TemplateSize: =44
+            Width: =recCard2.Width
+            X: =recCard2.X
+            Y: =recCard2.Y + 78
+          Children:
+            - recMiRowRule:
+                Control: Rectangle@2.3.0
+                Properties:
+                  Fill: =clrLine
+                  Height: =1
+                  Width: =Parent.TemplateWidth
+                  Y: =Parent.TemplateHeight - 1
+            - lblMiRef:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =clrBrandDark
+                  Font: =fntMono
+                  FontWeight: =FontWeight.Semibold
+                  Height: =Parent.TemplateHeight
+                  OnSelect: =Set(varRef, ThisItem.Title); Navigate(scrRequestDetail, ScreenTransition.None)
+                  PaddingBottom: =0
+                  PaddingLeft: =0
+                  PaddingRight: =0
+                  PaddingTop: =0
+                  Size: =szTable
+                  Text: =ThisItem.Title
+                  Width: =160
+                  X: =spc14
+            - lblMiSubmitted:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =clrInk
+                  Font: =fntUI
+                  Height: =Parent.TemplateHeight
+                  OnSelect: =Select(Parent)
+                  PaddingBottom: =0
+                  PaddingLeft: =0
+                  PaddingRight: =0
+                  PaddingTop: =0
+                  Size: =szTable
+                  Text: =Text(ThisItem.SubmittedOn, "d mmm yyyy")
+                  Width: =160
+                  X: =spc14 + 160
+            - lblMiItems:
+                Control: Label@2.5.1
+                Properties:
+                  Align: =Align.Right
+                  Color: =clrInk
+                  Font: =fntUI
+                  Height: =Parent.TemplateHeight
+                  OnSelect: =Select(Parent)
+                  PaddingBottom: =0
+                  PaddingLeft: =0
+                  PaddingRight: =0
+                  PaddingTop: =0
+                  Size: =szTable
+                  Text: =Text(ThisItem.LineCount)
+                  Width: =60
+                  X: =spc14 + 330
+            - recMiStatusBg:
+                Control: Classic/Button@2.2.0
+                Properties:
+                  Fill: =Coalesce(LookUp(tblStatus, StatusText = ThisItem.Status.Value).Bg, clrStDraftBg)
+                  Height: =22
+                  HoverBorderColor: =Self.BorderColor
+                  HoverFill: =Self.Fill
+                  OnSelect: =Select(Parent)
+                  PressedBorderColor: =Self.BorderColor
+                  PressedFill: =Self.Fill
+                  RadiusBottomLeft: =radPill
+                  RadiusBottomRight: =radPill
+                  RadiusTopLeft: =radPill
+                  RadiusTopRight: =radPill
+                  Text: =""
+                  Width: =150
+                  X: =spc14 + 410
+                  Y: =(Parent.TemplateHeight / 2) - 11
+            - lblMiStatusGlyph:
+                Control: Label@2.5.1
+                Properties:
+                  Align: =Align.Center
+                  Color: =Coalesce(LookUp(tblStatus, StatusText = ThisItem.Status.Value).Fg, clrInk2)
+                  Font: =fntUI
+                  Height: =22
+                  PaddingBottom: =0
+                  PaddingLeft: =0
+                  PaddingRight: =0
+                  PaddingTop: =0
+                  Size: =szBadge
+                  Text: =Coalesce(LookUp(tblStatus, StatusText = ThisItem.Status.Value).Glyph, "•")
+                  Width: =18
+                  X: =spc14 + 410 + spc8
+                  Y: =(Parent.TemplateHeight / 2) - 11
+            - lblMiStatusText:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =Coalesce(LookUp(tblStatus, StatusText = ThisItem.Status.Value).Fg, clrInk2)
+                  Font: =fntUI
+                  FontWeight: =FontWeight.Semibold
+                  Height: =22
+                  PaddingBottom: =0
+                  PaddingLeft: =0
+                  PaddingRight: =0
+                  PaddingTop: =0
+                  Size: =szBadge
+                  Text: =ThisItem.Status.Value
+                  Width: =118
+                  X: =spc14 + 410 + spc8 + 20
+                  Y: =(Parent.TemplateHeight / 2) - 11
+            - lblMiWith:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =clrInk
+                  Font: =fntUI
+                  Height: =Parent.TemplateHeight
+                  OnSelect: =Select(Parent)
+                  PaddingBottom: =0
+                  PaddingLeft: =0
+                  PaddingRight: =0
+                  PaddingTop: =0
+                  Size: =szTable
+                  Text: |
+                    =If(
+                        ThisItem.StatusRank >= 70, "—",
+                        ThisItem.CurrentlyWithEmail = varUserEmail, "Me",
+                        Coalesce(ThisItem.CurrentlyWithEmail, "—")
+                    )
+                  Width: =240
+                  X: =spc14 + 580
+            - btnMiAction:
+                Control: Classic/Button@2.2.0
+                Properties:
+                  BorderColor: =If(ThisItem.StatusRank = 50, clrBrand, clrLineStrong)
+                  Color: =If(ThisItem.StatusRank = 50, clrOnBrand, clrInk)
+                  Fill: =If(ThisItem.StatusRank = 50, clrBrand, clrSurface)
+                  Font: =fntUI
+                  Height: =28
+                  HoverFill: =If(ThisItem.StatusRank = 50, clrBrandDark, clrCanvas)
+                  OnSelect: |
+                    =Set(varRef, ThisItem.Title);
+                    If(
+                        ThisItem.StatusRank = 50, Navigate(scrReceipt, ScreenTransition.None),
+                        ThisItem.StatusRank = 15, Navigate(scrNewRequest, ScreenTransition.None),
+                        Navigate(scrRequestDetail, ScreenTransition.None)
+                    )
+                  RadiusBottomLeft: =rad4
+                  RadiusBottomRight: =rad4
+                  RadiusTopLeft: =rad4
+                  RadiusTopRight: =rad4
+                  Size: =szLabel
+                  Text: |
+                    =If(
+                        ThisItem.StatusRank = 50, "Confirm receipt",
+                        ThisItem.StatusRank = 15, "Edit",
+                        "Open"
+                    )
+                  Width: =120
+                  X: =Parent.TemplateWidth - spc14 - 120
+                  Y: =(Parent.TemplateHeight / 2) - 14
