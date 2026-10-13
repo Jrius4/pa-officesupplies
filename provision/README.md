@@ -29,7 +29,7 @@
 > | Seed rows | 62 (61 items + 1 library file) |
 > | `StockLedger` | deliberately empty — see `03-seed.sh` |
 > | Person columns | **all blank** — see below |
-> | Site timezone | (UTC+03:00) Nairobi |
+> | Site timezone | (UTC+03:00) Juba |
 >
 > **Person columns are empty by design.** The eleven UPNs in the `03-seed.sh`
 > EDIT-ME block do not exist in this tenant; the only real account is Otim Samuel's.
@@ -39,6 +39,16 @@
 > so nothing downstream breaks — but the SharePoint list UI shows blank people, and
 > `User().Email` during testing resolves to Otim Samuel rather than to any seeded
 > persona. Backfill the Person columns once real accounts exist.
+>
+> **The seeded narrative was relocated from Kenya to South Sudan** after this site
+> was built (`NCO/GFO/KFO` → `JCO/BOR/MAL`, `Country` → `South Sudan`, and the
+> eleven personas renamed). `03-seed.sh` now carries the South Sudan values, so a
+> rebuild from scratch lands in the right place. The **already-seeded** site is
+> brought across by [`04-relocate-ke-to-ss.sh`](04-relocate-ke-to-ss.sh) — see
+> Step 5. That script exists because the office code is a key, not a label: it is
+> embedded in `Catalogue.OfficeItemKey`, `ApprovalMatrix.MatrixKey` and the
+> `OfficeCode` filter column on six lists, so a re-seed would orphan every
+> pre-existing row rather than move it.
 >
 > **If you ever need to rebuild from scratch**, use the REST recipe recorded in the
 > plan file rather than these scripts: create the list with
@@ -51,8 +61,9 @@
 
 ---
 
-Three scripts build the whole data layer for the Office Supplies canvas app. They
-must run in order — `01` → `02` → `03` — and the order is not cosmetic: SharePoint
+Three scripts build the whole data layer for the Office Supplies canvas app, and a
+fourth migrates an already-built one. The first three must run in order —
+`01` → `02` → `03` — and the order is not cosmetic: SharePoint
 refuses to add an index to a list that is already over 5000 items, so every
 `Indexed="TRUE"` column has to exist before a single row is seeded. Getting this
 backwards is unrecoverable without recreating the list.
@@ -93,7 +104,7 @@ m365 status
 ```
 
 `m365 status` must print your signed-in identity before you go any further. All
-three provisioning scripts refuse to run if it does not.
+four scripts refuse to run if it does not.
 
 ## Step 3 — Create the site collection
 
@@ -145,6 +156,52 @@ the app filters on the shadow email columns anyway, so the data stays usable:
 SEED_PEOPLE=0 bash provision/03-seed.sh
 ```
 
+## Step 5 — Relocate an already-seeded site (Kenya → South Sudan)
+
+Only for a site that was seeded **before** the narrative moved to South Sudan. A
+site built fresh from `03-seed.sh` is already correct and must not be run through
+this.
+
+```bash
+bash provision/04-relocate-ke-to-ss.sh              # dry run — reports every change
+DRY_RUN=0 bash provision/04-relocate-ke-to-ss.sh    # apply
+```
+
+It rewrites, in place, across all eleven data lists:
+
+| From | To |
+|---|---|
+| `NCO` Nairobi Country Office | `JCO` Juba Country Office |
+| `GFO` Garissa Field Office | `BOR` Bor Zonal Office |
+| `KFO` Kisumu Field Office | `MAL` Malakal Zonal Office |
+| `Country` = `Kenya` | `South Sudan` |
+| the eleven Kenyan personas | their South Sudanese replacements |
+
+The rewrite is word-bounded, so `GFO|A4PAPER` becomes `BOR|A4PAPER` while
+`TONER-HP26A` is left alone. Every write is conditional on the value actually
+changing, so a second run reports zero updates.
+
+**Person columns are not touched**, which on this site costs nothing — they are
+already blank (see the banner above). Only the shadow `…Email` text columns are
+rewritten, and those are what the app filters on.
+
+### Zonal offices
+
+The UNICEF South Sudan office set is the Juba Country Office plus four zonal
+offices — `BOR` Bor, `MAL` Malakal, `BEN` Bentiu, `WAU` Wau — with the new
+`OfficeType` choice `Zonal office`. A site seeded before that change still has
+the two-value choice and `Bor Field Office` / `Malakal Field Office`. Bring it
+across with:
+
+```bash
+bash provision/05-zonal-offices.sh              # dry run — reports every change
+DRY_RUN=0 bash provision/05-zonal-offices.sh    # apply
+bash provision/03-seed.sh                       # adds BEN, WAU and their sharing links
+```
+
+Run it after `04-relocate-ke-to-ss.sh` if that one is needed. Office codes do not
+change, so nothing keyed on `BOR` or `MAL` is touched.
+
 ---
 
 ## Why the columns are scripted and not clicked
@@ -178,7 +235,8 @@ Two more invariants worth knowing before you touch anything:
 | `MAJOR_VERSION_LIMIT` | `50` | `01-lists.sh` |
 | `UPN_DOMAIN` | `trailanalyticslimited602.onmicrosoft.com` | `03-seed.sh` |
 | `SEED_PEOPLE` | `1` | `03-seed.sh` — set `0` to skip Person columns |
-| `GFO_ARCHBOX_STOCK` | `6` | `03-seed.sh` — see the note in the script; the mock-up contradicts itself on this one figure |
+| `BOR_ARCHBOX_STOCK` | `6` | `03-seed.sh` — see the note in the script; the mock-up contradicts itself on this one figure |
+| `DRY_RUN` | `1` | `04-relocate-ke-to-ss.sh`, `05-zonal-offices.sh` — set `0` to actually write |
 
 ## Starting over
 

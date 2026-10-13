@@ -294,7 +294,7 @@ Sits between the Items card and the bottom of the page.
   this exact 3px value — not every measurement in the mock-up has one, and
   that's fine).
 - An "ℹ" glyph Label, then the body text at `Size: =szLabel` (12.5).
-  "Daniel Otieno" is bold in the mock-up — same two-Labels-side-by-side
+  "Deng Machar" is bold in the mock-up — same two-Labels-side-by-side
   technique as the Purpose asterisk, since there's no rich-text run inside a
   single canvas Label.
 - `spc14` clearance above and below the whole callout.
