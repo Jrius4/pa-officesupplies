@@ -68,10 +68,10 @@ Base template `GenericList`. Versioning on. Attachments off.
 
 | Internal name | Display name | SharePoint type | Required | Indexed | Notes / verbatim choice values |
 |---|---|---|---|---|---|
-| `Title` | Office code | Single line of text (built-in) | Yes | Yes | The office code. `NCO`, `GFO`, `KFO`. Reconfigured with `spo field set`. |
-| `OfficeName` | Office name | Single line of text | Yes | No | `Nairobi Country Office`, `Garissa Field Office`, `Kisumu Field Office` |
-| `OfficeType` | Office type | Choice | Yes | No | `Headquarters`, `Field office` — verbatim from `admin.html` tab 3 |
-| `Country` | Country | Single line of text | No | No | Not stated in the mock-up; seeded `Kenya` |
+| `Title` | Office code | Single line of text (built-in) | Yes | Yes | The office code. `JCO`, `BOR`, `MAL`, `BEN`, `WAU`. Reconfigured with `spo field set`. |
+| `OfficeName` | Office name | Single line of text | Yes | No | `Juba Country Office`, `Bor Zonal Office`, `Malakal Zonal Office`, `Bentiu Zonal Office`, `Wau Zonal Office` |
+| `OfficeType` | Office type | Choice | Yes | No | `Headquarters`, `Zonal office`, `Field office` — `Headquarters` and `Field office` verbatim from `admin.html` tab 3; `Zonal office` added for UNICEF South Sudan (see the judgement-call note below) |
+| `Country` | Country | Single line of text | No | No | Not stated in the mock-up; seeded `South Sudan` |
 | `IsActive` | Active | Yes/No | No | No | Default `1` |
 
 ## 2. OfficeSharing
@@ -80,7 +80,7 @@ Base template `GenericList`. Versioning on. Attachments off.
 
 | Internal name | Display name | SharePoint type | Required | Indexed | Notes / verbatim choice values |
 |---|---|---|---|---|---|
-| `Title` | Sharing link | Single line of text (built-in) | Yes | No | Human label, e.g. `NCO → GFO` |
+| `Title` | Sharing link | Single line of text (built-in) | Yes | No | Human label, e.g. `JCO → BOR` |
 | `FromOfficeCode` | From office code | Single line of text | Yes | No | The primary office that **lends** |
 | `ToOfficeCode` | To office code | Single line of text | Yes | No | The secondary office that **borrows** |
 | `SharePriority` | Share priority | Number (0 dp) | Yes | No | `Min="1"`. Lower number wins when several offices can lend. |
@@ -95,7 +95,7 @@ Base template `GenericList`. Versioning on. Attachments off.
 | `Title` | Item name | Single line of text (built-in) | Yes | No | Verbatim item name, e.g. `A4 photocopy paper (ream)` |
 | `ItemCode` | Item code | Single line of text | Yes | No | Stable per-item code, unique **within** an office |
 | `OfficeCode` | Office code | Single line of text | Yes | **Yes** | |
-| `OfficeItemKey` | Office item key | Single line of text | Yes | **Yes — unique** | `EnforceUniqueValues="TRUE"`. Composed `<OfficeCode>\|<ItemCode>`, e.g. `GFO\|A4PAPER` |
+| `OfficeItemKey` | Office item key | Single line of text | Yes | **Yes — unique** | `EnforceUniqueValues="TRUE"`. Composed `<OfficeCode>\|<ItemCode>`, e.g. `BOR\|A4PAPER` |
 | `Category` | Category | Single line of text | No | No | The mock-up states no categories — free text rather than an invented Choice |
 | `UnitOfMeasure` | Unit of measure | Single line of text | No | No | `Ream`, `Box of 10`, `Pack of 5`, `Each`, `Pad`, `Cartridge`, `Box of 50` |
 | `StockQty` | Stock quantity | Number (0 dp) | Yes | No | `Min="0"`. A **cache** — the ledger is truth. |
@@ -120,7 +120,7 @@ Versioning on. Attachments off.
 
 | Internal name | Display name | SharePoint type | Required | Indexed | Notes / verbatim choice values |
 |---|---|---|---|---|---|
-| `Title` | Entry | Single line of text (built-in) | Yes | No | Label, e.g. `GFO\|A4PAPER 2026-07-13` |
+| `Title` | Entry | Single line of text (built-in) | Yes | No | Label, e.g. `BOR\|A4PAPER 2026-07-13` |
 | `OfficeItemKey` | Office item key | Single line of text | Yes | **Yes** | |
 | `OfficeCode` | Office code | Single line of text | Yes | **Yes** | |
 | `ItemCode` | Item code | Single line of text | Yes | No | |
@@ -139,10 +139,10 @@ Base template `GenericList`. Versioning on (matrix changes are audited). Attachm
 
 | Internal name | Display name | SharePoint type | Required | Indexed | Notes / verbatim choice values |
 |---|---|---|---|---|---|
-| `Title` | Step | Single line of text (built-in) | Yes | No | Label, e.g. `GFO · Review` |
+| `Title` | Step | Single line of text (built-in) | Yes | No | Label, e.g. `BOR · Review` |
 | `OfficeCode` | Office code | Single line of text | Yes | No | |
 | `Section` | Section scope | Single line of text | Yes | No | A section name, or the literal `All sections` for an office-wide row. Text, not Choice, precisely so `All sections` is expressible. |
-| `MatrixKey` | Matrix key | Single line of text | Yes | **Yes** | `<OfficeCode>\|<Section>`, e.g. `GFO\|All sections` |
+| `MatrixKey` | Matrix key | Single line of text | Yes | **Yes** | `<OfficeCode>\|<Section>`, e.g. `BOR\|All sections` |
 | `StageCode` | Stage code | Choice | Yes | No | `Review`, `Approval`, `Confirm`, `Deliver`, `Receive` |
 | `StageOrder` | Step | Number (0 dp) | Yes | No | `Min="1"`. The step number the admin screen shows. |
 | `ActorRoleCode` | Acts as | Choice | Yes | No | `Requester`, `Reviewer`, `Chief Field Office`, `Storekeeper`, `Administrator` |
@@ -212,7 +212,7 @@ Attachments off.
 | `QtyApproved` | Approved | Number (0 dp) | No | No | `Min="0"`. Set on the Review screen. |
 | `QtyDistributed` | Distributed | Number (0 dp) | No | No | `Min="0"` |
 | `QtyReceived` | Received | Number (0 dp) | No | No | `Min="0"` |
-| `SourceOfficeCode` | Source office code | Single line of text | No | No | Stamped when the line is filled from a lending office (`NCO` for the flipchart pads) |
+| `SourceOfficeCode` | Source office code | Single line of text | No | No | Stamped when the line is filled from a lending office (`JCO` for the flipchart pads) |
 | `LineStatus` | Line status | Choice | No | No | `Pending`, `Partially distributed`, `Fully distributed`, `Partially received`, `Fully received`, `Cancelled` |
 | `ReceiptCondition` | Receipt condition | Choice | No | No | `Complete`, `Short`, `Damaged`, `Not received` |
 | `LineNote` | Line note | Multiple lines of text | No | No | Plain text |
@@ -268,11 +268,11 @@ because attachments cannot be queried across items. Versioning on, major version
 Base template `GenericList`. Versioning on. Attachments off.
 
 Not in the mock-up's implied model, but required: the screens gate on role, and one
-person holds several — Daniel Otieno is both **Reviewer** and **Requester**.
+person holds several — Deng Machar is both **Reviewer** and **Requester**.
 
 | Internal name | Display name | SharePoint type | Required | Indexed | Notes / verbatim choice values |
 |---|---|---|---|---|---|
-| `Title` | Person | Single line of text (built-in) | Yes | No | Display name, e.g. `Daniel Otieno` |
+| `Title` | Person | Single line of text (built-in) | Yes | No | Display name, e.g. `Deng Machar` |
 | `UserEmail` | User email | Single line of text | Yes | **Yes** | |
 | `OfficeCode` | Office code | Single line of text | Yes | No | |
 | `RoleCode` | Role | Choice | Yes | No | `Requester`, `Reviewer`, `Chief Field Office`, `Storekeeper`, `Administrator` |
@@ -341,7 +341,7 @@ rows per office + section**.
 
 **The skip rule is the absence of a row.** A stage is skipped iff no active matrix
 row exists for that `MatrixKey` + `StageCode`. No sentinel rows, no `IsSkipped`
-flag. Garissa has four rows and no `Approval` row — which is exactly why
+flag. Bor has four rows and no `Approval` row — which is exactly why
 `admin.html` shows four steps and the rail strikes `Approval` through. The rail
 renders by left-joining the six canonical stages against the collected matrix rows;
 a skipped leg uses the Label `Strikethrough` property, not a separate control.
@@ -413,7 +413,7 @@ recorded so the review can accept or reject it individually.
 
 | List | Column | Why |
 |---|---|---|
-| `Offices` | `OfficeType` | `admin.html` tab 3 shows a **Type** column with the values `Headquarters` and `Field office`. Without it that table cannot be rendered. |
+| `Offices` | `OfficeType` | `admin.html` tab 3 shows a **Type** column with the values `Headquarters` and `Field office`. Without it that table cannot be rendered. **Judgement call:** `Zonal office` is added as a third value because UNICEF South Sudan runs zone offices (Bentiu, Bor, Malakal, Wau) between the country office and its field offices, per the UNICEF OIAI audit of the South Sudan Country Office (Dec 2018). No current public list exists. |
 | `ApprovalMatrix` | `ActorRoleCode` | `admin.html` tab 1's **Acts** column, and specifically step 4 — `Requester (originator)`, which has no named approver and no OIC. Without the role code there is no way to know that row routes to the request's originator rather than to a named person. |
 | `RequestItems` | `UnitCost` | The plan's "Denormalise the catalogue snapshot onto the line" section states that `RequestItems` carries `ItemName`, `UnitOfMeasure` **and `UnitCost`** copied at line creation; its abbreviated column list omits it. Prose wins. |
 | `RequestComments` | `CommentAuthor` (renamed) | The plan names this Person column `Author`. `Author` is a reserved SharePoint internal name (Created By) and `spo field add` will refuse it. The shadow stays `AuthorEmail` as planned. |

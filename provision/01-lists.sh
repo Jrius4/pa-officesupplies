@@ -86,7 +86,7 @@ add_data_list() {
 echo "Creating lists…"
 
 add_data_list "Offices" \
-  "Offices and their codes. Title = the office code (NCO, GFO, KFO)."
+  "Offices and their codes. Title = the office code (JCO, BOR, MAL, BEN, WAU)."
 
 add_data_list "OfficeSharing" \
   "Supply-sharing links. When a secondary office lacks stock, requests can be fulfilled from the primary office."

@@ -456,7 +456,7 @@ varIsReviewer
 varIsStorekeeper
 varIsAdmin
 
-// Office-scoped — a Storekeeper in GFO must not distribute NCO stock:
+// Office-scoped — a Storekeeper in BOR must not distribute JCO stock:
 CountRows(Filter(colMyRoles, RoleCode.Value = "Storekeeper", OfficeCode = varOffice)) > 0
 CountRows(Filter(colMyRoles, RoleCode.Value = "Reviewer",    OfficeCode = varOffice)) > 0
 
@@ -559,8 +559,8 @@ exactly one row or none. That difference is the only reliable oracle.
 > connector shares the defect, the app loads the *inactive* matrix rows and the
 > journey rail resolves against the wrong data — with no error and no warning.
 >
-> **Test:** the Garissa catalogue must return **9** active items (10 rows less the
-> discontinued `GFO|FAXTONER-L100`), and `colMatrix` must hold **4** rows. If either
+> **Test:** the Bor catalogue must return **9** active items (10 rows less the
+> discontinued `BOR|FAXTONER-L100`), and `colMatrix` must hold **4** rows. If either
 > comes back as 1, rewrite the predicate as `IsActive <> false`, or add a shadow
 > number column, the same way `StatusRank` shadows `Status`.
 

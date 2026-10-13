@@ -99,7 +99,7 @@ set_title_field() {
 echo "Offices…"
 set_title_field "Offices" "Office code" true true false
 fld Offices OfficeName '<Field Type="Text" DisplayName="Office name" Name="OfficeName" StaticName="OfficeName" Required="TRUE" MaxLength="255"/>'
-fld Offices OfficeType '<Field Type="Choice" DisplayName="Office type" Name="OfficeType" StaticName="OfficeType" Required="TRUE" Format="Dropdown" FillInChoice="FALSE"><CHOICES><CHOICE>Headquarters</CHOICE><CHOICE>Field office</CHOICE></CHOICES></Field>'
+fld Offices OfficeType '<Field Type="Choice" DisplayName="Office type" Name="OfficeType" StaticName="OfficeType" Required="TRUE" Format="Dropdown" FillInChoice="FALSE"><CHOICES><CHOICE>Headquarters</CHOICE><CHOICE>Zonal office</CHOICE><CHOICE>Field office</CHOICE></CHOICES></Field>'
 fld Offices Country '<Field Type="Text" DisplayName="Country" Name="Country" StaticName="Country" MaxLength="255"/>'
 fld Offices IsActive '<Field Type="Boolean" DisplayName="Active" Name="IsActive" StaticName="IsActive"><Default>1</Default></Field>'
 
