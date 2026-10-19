@@ -1,7 +1,8 @@
 // ── 1. Reference data (small lists, one round trip each) ───────────────────
 
 // All offices, including inactive ones — scrAdmin tab 3 renders the full table
-// with an Active column, so it must not be pre-filtered.
+// with an Active column, so it must not be pre-filtered. Pickers filter it
+// locally (DEF-14: an inactive office is hidden from pickers, still listed here).
 ClearCollect(colOffices, Offices);
 
 // The approval matrix. IsActive = true on a Yes/No column IS delegable to
@@ -11,17 +12,33 @@ ClearCollect(colMatrix, Filter(ApprovalMatrix, IsActive = true));
 // Office sharing links — needed by the Review screen's ceiling calculation.
 ClearCollect(colSharing, Filter(OfficeSharing, IsActive = true));
 
-// ── 2. The single role query ───────────────────────────────────────────────
+// ── 2. Who is using the app ─────────────────────────────────────────────────
+// Emails are compared lower-case everywhere (DEF-09: "Email casing is compared
+// exactly"). SharePoint's own filters ignore case, but a comparison the app
+// makes itself, such as Lower(varReq.CurrentlyWithEmail) = varUserEmail, does not.
+Set(varRealEmail, Lower(User().Email));
+Set(varUserName,  User().FullName);
+
+// Testing only: open the app with &as=<email> to behave as a seeded persona,
+// the canvas equivalent of the SPFx "impersonate email" setting. Ignored unless
+// cfgAllowImpersonation (App.Formulas) is true.
+Set(
+    varUserEmail,
+    If(
+        cfgAllowImpersonation && !IsBlank(Param("as")),
+        Lower(Trim(Param("as"))),
+        varRealEmail
+    )
+);
+Set(varImpersonating, varUserEmail <> varRealEmail);
+
+// ── 3. The single role query ───────────────────────────────────────────────
 // ONE delegable query (UserEmail is indexed text, IsActive is Yes/No). Every
 // role check after this is local. Never re-query AppRoles per screen.
 ClearCollect(
     colMyRoles,
-    Filter(AppRoles, UserEmail = User().Email, IsActive = true)
+    Filter(AppRoles, UserEmail = varUserEmail, IsActive = true)
 );
-
-// ── 3. User and context variables ──────────────────────────────────────────
-Set(varUserEmail, User().Email);
-Set(varUserName,  User().FullName);
 
 // Default office = the office on the user's Requester role if they have one,
 // else whatever their first role names, else blank. Coalesce over blank text.
@@ -35,23 +52,43 @@ Set(
 );
 
 // varOffice is the office the screens are CURRENTLY looking at. It starts at the
-// user's own office; scrAdmin and scrReports let an Administrator repoint it.
-// Every Catalogue / StockLedger query keys off varOffice, never off varMyOffice.
+// user's own office; scrAdmin and scrReports let the user repoint it.
 Set(varOffice, varMyOffice);
 
 // ── 4. Role booleans ───────────────────────────────────────────────────────
-// Derived from colMyRoles, so they are variables, not named formulas — a named
-// formula cannot reference a collection. Consequence: if AppRoles changes
-// mid-session these are stale until the app is relaunched. Acceptable; roles
-// are administered rarely. RoleCode is a Choice column, hence .Value.
-Set(varIsRequester,  CountRows(Filter(colMyRoles, RoleCode.Value = "Requester"))           > 0);
-Set(varIsReviewer,   CountRows(Filter(colMyRoles, RoleCode.Value = "Reviewer"))            > 0);
-Set(varIsCFO,        CountRows(Filter(colMyRoles, RoleCode.Value = "Chief Field Office"))  > 0);
-Set(varIsStorekeeper,CountRows(Filter(colMyRoles, RoleCode.Value = "Storekeeper"))         > 0);
-Set(varIsAdmin,      CountRows(Filter(colMyRoles, RoleCode.Value = "Administrator"))       > 0);
+// Derived from colMyRoles, so they are variables, not named formulas. If
+// AppRoles changes mid-session these are stale until the app is reopened.
+Set(varIsRequester,   !IsEmpty(Filter(colMyRoles, RoleCode.Value = "Requester")));
+Set(varIsReviewer,    !IsEmpty(Filter(colMyRoles, RoleCode.Value = "Reviewer")));
+Set(varIsCFO,         !IsEmpty(Filter(colMyRoles, RoleCode.Value = "Chief Field Office")));
+Set(varIsStorekeeper, !IsEmpty(Filter(colMyRoles, RoleCode.Value = "Storekeeper")));
+Set(varIsAdmin,       !IsEmpty(Filter(colMyRoles, RoleCode.Value = "Administrator")));
+
+// The persona line ("Viewing as: Reviewer · Bor Zonal Office"): the highest
+// role wins, in the order HomePage.tsx uses.
+Set(
+    varPersonaRole,
+    If(
+        varIsAdmin,       "Administrator",
+        varIsCFO,         "Chief Field Office",
+        varIsReviewer,    "Reviewer",
+        varIsStorekeeper, "Storekeeper",
+        varIsRequester,   "Requester",
+        "No role"
+    )
+);
+Set(
+    varMyOfficeName,
+    Coalesce(LookUp(colOffices, Title = varMyOffice).OfficeName, varMyOffice, "No default office")
+);
 
 // ── 5. Working state ───────────────────────────────────────────────────────
-Set(varBusy, false);        // button guard — see Section 5
-Set(varRef, "");            // the request reference currently open
-Set(varMatrixKey, "");      // "<OfficeCode>|<Section>" for the open request
-Set(varErrorMsg, "");       // last user-facing error, "" when clean
+Set(varBusy, false);           // button guard: every multi-write sets it first
+Set(varErrorMsg, "");          // last user-facing error, "" when clean
+
+// The request currently open. A link with &req=SR-202607-0038 opens it
+// directly (App.StartScreen sends the user to scrRequestDetail); every screen
+// that shows a request reads it again with LookUp(Requests, Title = varRef).
+Set(varRef, Coalesce(Param("req"), ""));
+Set(varEditRef, "");           // scrNewRequest: "" = new request, else the ref being edited
+Set(varQueue, "review");       // scrWorkQueue: "review" | "distribute" | "receipt"

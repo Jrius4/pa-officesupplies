@@ -161,3 +161,68 @@ Table(
 
 // The copy the mock-up puts under a struck-through leg.
 txtLegSkipped = "not required in this office";
+
+// ══ Added for the full rebuild (Canvas Rebuild Guide, chapter 3) ═══════════
+// Everything below is a constant, like everything above. Formulas that read a
+// collection or a variable live in App.OnStart or on the screens instead.
+
+// What each stage's work looks like: the screen that does it and its button
+// labels. Ported from pa.init.officesupplies src/domain/stageAction.ts.
+// DEF-03 / DEF-120: a row button names the stage it acts on, not always "Review".
+tblStageAction =
+Table(
+    { StageCode: "Review",   Screen: "review",     DetailLabel: "Review request",  RowLabel: "Review",          ScreenTitle: "Review"  },
+    { StageCode: "Approval", Screen: "review",     DetailLabel: "Approve request", RowLabel: "Approve",         ScreenTitle: "Approve" },
+    { StageCode: "Confirm",  Screen: "review",     DetailLabel: "Confirm request", RowLabel: "Confirm",         ScreenTitle: "Confirm" },
+    { StageCode: "Deliver",  Screen: "distribute", DetailLabel: "Distribute",      RowLabel: "Distribute",      ScreenTitle: "Distribute" },
+    { StageCode: "Receive",  Screen: "receipt",    DetailLabel: "Confirm receipt", RowLabel: "Confirm receipt", ScreenTitle: "Confirm receipt" }
+);
+
+// Choice values, verbatim from docs/schema.md. Single-column tables (column "Value").
+tblSections    = ["Programme", "Child Protection", "Health & Nutrition", "Operations", "Supply & Logistics"];
+tblPurposes    = ["Internal", "External"];
+tblRoles       = ["Requester", "Reviewer", "Chief Field Office", "Storekeeper", "Administrator"];
+tblOfficeTypes = ["Headquarters", "Zonal office", "Field office"];
+tblDocTypes    = ["Supporting document", "Request PDF", "Delivery note", "Receipt note"];
+tblConditions  = ["Complete", "Short", "Damaged", "Not received"];
+
+// Timeline glyph per RequestTimeline.EventType (schema.md §9).
+tblEventGlyph =
+Table(
+    { EventType: "Draft created",  Glyph: "✎" },
+    { EventType: "Submitted",      Glyph: "●" },
+    { EventType: "Routed",         Glyph: "→" },
+    { EventType: "Reviewed",       Glyph: "◆" },
+    { EventType: "Returned",       Glyph: "↩" },
+    { EventType: "Rejected",       Glyph: "✕" },
+    { EventType: "Confirmed",      Glyph: "✓" },
+    { EventType: "Distributed",    Glyph: "▣" },
+    { EventType: "Received",       Glyph: "✓" },
+    { EventType: "Closed",         Glyph: "■" },
+    { EventType: "Comment added",  Glyph: "💬" },
+    { EventType: "Reassigned",     Glyph: "⇄" },
+    { EventType: "Stock adjusted", Glyph: "±" }
+);
+
+// Reports: the events that END each stage, and the stage's chart label.
+// Ported from src/domain/timeline.ts (STAGE_EXIT_EVENTS, STAGE_CHART_LABELS).
+// Exits is a "|"-delimited list so a test reads: "|" & ev & "|" in Exits.
+tblStageExit =
+Table(
+    { Leg: 2, StageCode: "Review",   ChartLabel: "Review",               Exits: "|Reviewed|Returned|Rejected|" },
+    { Leg: 3, StageCode: "Approval", ChartLabel: "Approval",             Exits: "|Confirmed|Returned|Rejected|" },
+    { Leg: 4, StageCode: "Confirm",  ChartLabel: "CFO confirmation",     Exits: "|Confirmed|Returned|Rejected|" },
+    { Leg: 5, StageCode: "Deliver",  ChartLabel: "Distribution",         Exits: "|Distributed|" },
+    { Leg: 6, StageCode: "Receive",  ChartLabel: "Receipt confirmation", Exits: "|Received|Closed|" }
+);
+
+numOverdueHours = 72;    // "held longer than 3 days" on Home (HomePage.tsx OVERDUE_DAYS = 3)
+numReportCap    = 500;   // Reports read at most this many rows per list (ReportsPage.tsx)
+numMintAttempts = 5;     // reference minting retries (src/domain/reference.ts MAX_MINT_ATTEMPTS)
+txtNoHolder     = "—";   // DEF-111: nobody holds the request
+txtSystemActor  = "System";
+
+// Testing switch. true lets the app run as a seeded persona via the "as" link
+// parameter (App.OnStart). The seeded people have no real accounts, so UAT needs
+// it. SET IT TO false BEFORE YOU PUBLISH THE APP TO REAL USERS.
+cfgAllowImpersonation = true;
