@@ -166,14 +166,12 @@ Empty message: "Nothing is waiting on you right now."
 | Action | `btnMineAction`, below |
 
 ```powerfx
-// lblMineWith.Text — "—" when it is finished or nobody holds it (DEF-111)
+// lblMineWith.Text — the holder's name, or "—" when it is finished or nobody holds it (DEF-111).
+// The current app shows just the name; the mock-up's "Me — confirm receipt" wording is not reproduced.
 If(
     ThisItem.StatusRank >= 70 || IsBlank(ThisItem.CurrentlyWithEmail), txtNoHolder,
-    Lower(ThisItem.CurrentlyWithEmail) = varUserEmail,
-        "Me — " & If(ThisItem.Status.Value in ["Draft", "Returned"], "amend & resubmit", "confirm receipt"),
     With({ E: ThisItem.CurrentlyWithEmail },
         Proper(Substitute(Substitute(Left(E, Find("@", E & "@") - 1), ".", " "), "_", " ")))
-    & " (" & Coalesce(LookUp(tblJourney, StageCode = ThisItem.CurrentStageCode.Value).ActorLabel, "next step") & ")"
 )
 
 // btnMineAction.Visible

@@ -117,6 +117,8 @@ ClearCollect(colTopItems,
 
 `Distinct(…)` returns a one-column table whose column is called `Value`.
 
+Studio puts a delegation warning on each `FirstN`. That one is expected: the `Filter` inside it is sent to SharePoint, and `FirstN` only trims what comes back (chapter 15).
+
 !!! trap "Watch out"
     If your Studio shows `Distinct` results with a column called `Result` instead of `Value`, you are on an older authoring version. Change `.Value` to `.Result` in the formulas above, or update Studio (**Settings › Support › Authoring version**).
 

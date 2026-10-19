@@ -23,6 +23,22 @@ The four start-up collections (`colOffices`, `colMatrix`, `colSharing`, `colMyRo
 !!! trap "If a list comes back with one row"
     Hover over the blue underline or the warning triangle on its formula: Studio names the part it can't send to SharePoint. The fix is nearly always in the formula's filter (use `=`, `<`, `>` on an indexed text, number or date column; never `<>`, `Not`, `IsBlank` or `Search` on a SharePoint list), not in the screen. Appendix A lists the indexed columns.
 
+### What this guide's queries rely on
+
+Every query in this guide was checked against the index inventory in Appendix A. They fall into four groups:
+
+| Group | Examples | Why it is safe |
+|---|---|---|
+| Equality on an indexed text key | `Filter(RequestItems, RequestRefNo = varRef)`, `LookUp(Catalogue, OfficeItemKey = …)`, `LookUp(Requests, Title = varRef)` | SharePoint filters on the index, at any list size |
+| Ranges on an indexed number or date | `StatusRank < 70`, `SubmittedOn >= varSince`, `OccurredOn >= varSince`, `MovedOn >= varSince` | Same; `Or` of two indexed equalities (Home's holder test) also delegates |
+| An indexed column first, then a Yes/No | `Filter(Catalogue, OfficeCode = …, IsActive = true)` | The indexed `OfficeCode` narrows the rows before SharePoint looks at `IsActive` |
+| Small lists, loaded whole | `Offices`, `OfficeSharing`, `ApprovalMatrix`, `AppRoles`, `RefCounter` | Tens of rows, far below any limit |
+
+Two places are known exceptions. Neither is a mistake, and neither should be "fixed" in the formula:
+
+- **Reports** wraps its three reads in `FirstN(…, numReportCap)`. Studio underlines `FirstN` with a delegation warning. The filter inside it does delegate; `FirstN` only trims the result to 500 in the app, and the "Capped at 500" flag says so.
+- **Renaming an office code** (§15.5) filters `Requests.SharingOfficeCode`, `RequestItems.OfficeCode` and `RequestItems.SourceOfficeCode`, which are not indexed. It works while those lists are under 5,000 rows; §15.5 says what to do after that.
+
 ## Step 2 — raise the limit and test the buttons
 
 1. Set **Data row limit** to **2000**.
